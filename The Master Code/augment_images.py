@@ -10,7 +10,7 @@ from tqdm import tqdm
 IMAGES_FOLDER_PATH = 'data_stickers/train'
 ANNOTATIONS_PATH = 'data_stickers/train/annotations_og.coco.json'
 
-DATASET_MULTIPLICATION_SIZE = 4
+DATASET_MULTIPLICATION_SIZE = 1
 
 def augment_images():
 
@@ -29,22 +29,22 @@ def augment_images():
     # cv2.namedWindow('transformed_image', cv2.WINDOW_NORMAL)
 
     for i in range(DATASET_MULTIPLICATION_SIZE):
-        for image_name in tqdm(images):
+        for image_name in tqdm(images[:40]):
             number_of_augments = np.random.randint(1, 5)
 
             transform = A.Compose([
                                 A.SomeOf([
-                                    # A.RandomBrightnessContrast(p=1),
-                                    # A.BBoxSafeRandomCrop(p=0.1),
-                                    A.Rotate(p=1, limit=180, rotate_method="ellipse"),
-                                    A.RGBShift(p=1),
-                                    A.RandomSnow(p=1),
-                                    A.VerticalFlip(p=1),
-                                    A.HorizontalFlip(p=1),
+                                    A.OneOf([
+                                        A.Rotate(p=1, limit=180),
+                                        A.VerticalFlip(p=1),
+                                        A.HorizontalFlip(p=1),
+                                    ], p=1),
                                     A.GaussNoise(p=1),
+                                    A.RandomBrightnessContrast(p=1, brightness_limit=[-0.1, 0.2]),
+                                    A.ColorJitter(p=1, brightness=0, contrast=0),
                                 ], n=number_of_augments),
                                 ],
-                                #    bbox_params=A.BboxParams(format='coco', min_visibility=0.01, label_fields=['class_labels'])
+                                # bbox_params=A.BboxParams(format='coco', min_visibility=0.01),
                                 keypoint_params=A.KeypointParams(format='xy', remove_invisible=True, label_fields=['class_labels'])
                                 )
 
@@ -74,11 +74,16 @@ def augment_images():
             # flatten segmentations_new and class_labels_for_segment
             segmentations_new = [segmentation for segmentation in segmentations_new for segmentation in segmentation]
             class_labels_for_segment = [class_label for class_label in class_labels_for_segment for class_label in class_label]
+
+
             # transformed = transform(image=image, bboxes=bboxes, class_labels=class_labels)
+            for bounding_box in bboxes:
+                bounding_box.append('None')
+
             transformed = transform(image=image, keypoints=segmentations_new, class_labels=class_labels_for_segment)
             transformed_image = transformed['image']
             # transformed_bboxes = transformed['bboxes']
-            transformed_class_labels = transformed['class_labels']
+            # transformed_class_labels = transformed['class_labels']
             transformed_segmentations = transformed['keypoints']
 
             transformed_segmentations_splits = []
@@ -151,13 +156,16 @@ def augment_images():
             #     cv2.rectangle(image, (int(x), int(y)), (int(x+w), int(y+h)), (0, 255, 0), 2)
             #     cv2.putText(image, str(class_label), (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
-            cv2.imwrite('data_stickers/train/' + 'augmented_image' + str(10000 + image_count) + '.jpg', transformed_image)
+            # cv2.imwrite('data_stickers/train/' + 'augmented_image' + str(10000 + image_count) + '.jpg', transformed_image)
+            if not os.path.exists('data_stickers/augmented/'):
+                os.makedirs('data_stickers/augmented/')
+            cv2.imwrite('data_stickers/augmented/' + 'augmented_image' + str(10000 + image_count) + '.jpg', transformed_image)
             image_count += 1
 
-    with open('data_stickers/train/annotations.coco.json', 'w') as outfile:
+    # with open('data_stickers/train/annotations.coco.json', 'w') as outfile:
+    #     json.dump(annotations, outfile, indent=4)
+    with open('data_stickers/augmented/annotations.coco.json', 'w') as outfile:
         json.dump(annotations, outfile, indent=4)
-            # with open('data_stickers/augmented/annotations.coco.json', 'w') as outfile:
-            #     json.dump(annotations, outfile, indent=4)
             # cv2.imshow('image', image)
             # cv2.imshow('transformed_image', transformed_image)
             # # if esc is pressed, exit

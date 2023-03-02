@@ -1,0 +1,38 @@
+Date : 2023-03-02 12:38:37
+Directory : c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code
+Total : 13 files,  7976 codes, 129 comments, 203 blanks, all 8308 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| JSON     |          3 |      7,522 |          0 |          0 |      7,522 |
+| Python   |         10 |        454 |        129 |        203 |        786 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                              | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                 |         13 |      7,976 |        129 |        203 |      8,308 |
++-------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                          | language | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\add_to_pc.py                                 | Python   |        171 |         55 |         90 |        316 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations.json                             | JSON     |      3,582 |          0 |          0 |      3,582 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\augment_images.py                            | Python   |         48 |          5 |         23 |         76 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\check_bboxes.py                              | Python   |         19 |          7 |         15 |         41 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\clear_folders.py                             | Python   |         15 |          0 |          6 |         21 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\convert_to_jpg.py                            | Python   |         17 |          1 |          7 |         25 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\cut_stickers black.py                        | Python   |         32 |         17 |         11 |         60 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\cut_stickers_white.py                        | Python   |         33 |         23 |         14 |         70 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\fix_naming_and_category_in_ls_annotations.py | Python   |         26 |          0 |         11 |         37 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\grab_images.py                               | Python   |         89 |         21 |         23 |        133 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\rename_combined.py                           | Python   |          4 |          0 |          3 |          7 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\result.json                                  | JSON     |      3,582 |          0 |          0 |      3,582 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\stickers.json                                | JSON     |        358 |          0 |          0 |        358 |
+| Total                                                                                                             |          |      7,976 |        129 |        203 |      8,308 |
++-------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

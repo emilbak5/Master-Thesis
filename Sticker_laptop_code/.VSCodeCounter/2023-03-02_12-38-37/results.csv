@@ -1,0 +1,15 @@
+"filename", "language", "JSON", "Python", "comment", "blank", "total"
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\add_to_pc.py", "Python", 0, 171, 55, 90, 316
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations.json", "JSON", 3582, 0, 0, 0, 3582
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\augment_images.py", "Python", 0, 48, 5, 23, 76
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\check_bboxes.py", "Python", 0, 19, 7, 15, 41
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\clear_folders.py", "Python", 0, 15, 0, 6, 21
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\convert_to_jpg.py", "Python", 0, 17, 1, 7, 25
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\cut_stickers black.py", "Python", 0, 32, 17, 11, 60
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\cut_stickers_white.py", "Python", 0, 33, 23, 14, 70
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\fix_naming_and_category_in_ls_annotations.py", "Python", 0, 26, 0, 11, 37
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\grab_images.py", "Python", 0, 89, 21, 23, 133
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\rename_combined.py", "Python", 0, 4, 0, 3, 7
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\result.json", "JSON", 3582, 0, 0, 0, 3582
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\stickers.json", "JSON", 358, 0, 0, 0, 358
+"Total", "-", 7522, 454, 129, 203, 8308

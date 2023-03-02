@@ -1,0 +1,28 @@
+"filename", "language", "Python", "pip requirements", "JSON", "YAML", "comment", "blank", "total"
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augment_images.py", "Python", 97, 0, 0, 0, 40, 41, 178
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data\test\annotations.coco.json", "JSON", 0, 0, 28574, 0, 0, 0, 28574
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data\train\annotations.coco.json", "JSON", 0, 0, 1496, 0, 0, 0, 1496
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data\valid\annotations.coco.json", "JSON", 0, 0, 1292, 0, 0, 0, 1292
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw\_annotations.coco.json", "JSON", 0, 0, 31221, 0, 0, 0, 31221
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw\test_annotations.coco.json", "JSON", 0, 0, 1, 0, 0, 0, 1
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw\train_annotations.coco.json", "JSON", 0, 0, 1, 0, 0, 0, 1
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw\val_annotations.coco.json", "JSON", 0, 0, 1, 0, 0, 0, 1
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw_stickers\result.json", "JSON", 0, 0, 193272, 0, 0, 0, 193272
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\augmented\annotations.coco.json", "JSON", 0, 0, 273678, 0, 0, 0, 273678
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\test\annotations.coco.json", "JSON", 0, 0, 20184, 0, 0, 0, 20184
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\train\annotations.coco.json", "JSON", 0, 0, 684176, 0, 0, 0, 684176
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\train\annotations_og.coco.json", "JSON", 0, 0, 136848, 0, 0, 0, 136848
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\valid\annotations.coco.json", "JSON", 0, 0, 36264, 0, 0, 0, 36264
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\dataset_def_pl.py", "Python", 81, 0, 0, 0, 5, 51, 137
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\hp_raytuning.py", "Python", 64, 0, 0, 0, 62, 39, 165
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\lightning_logs\sticker_detection\version_0\hparams.yaml", "YAML", 0, 0, 0, 9, 0, 1, 10
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\lightning_logs\sticker_detection\version_1\hparams.yaml", "YAML", 0, 0, 0, 9, 0, 1, 10
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\lightning_logs\sticker_detection_v2\version_0\hparams.yaml", "YAML", 0, 0, 0, 9, 0, 1, 10
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\lightning_logs\sticker_detection_v2\version_1\hparams.yaml", "YAML", 0, 0, 0, 9, 0, 1, 10
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\model_def_pl.py", "Python", 67, 0, 0, 0, 7, 56, 130
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\requirements.txt", "pip requirements", 0, 8, 0, 0, 0, 1, 9
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\show_examples.py", "Python", 23, 0, 0, 0, 0, 14, 37
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\split_data.py", "Python", 64, 0, 0, 0, 14, 32, 110
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\train_pl.py", "Python", 40, 0, 0, 0, 4, 22, 66
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\utils.py", "Python", 91, 0, 0, 0, 33, 59, 183
+"Total", "-", 527, 8, 1407008, 36, 165, 319, 1408063

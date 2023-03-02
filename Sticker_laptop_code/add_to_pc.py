@@ -127,8 +127,8 @@ def mouse_callback(event, x, y, flags, param):
         
 
 
-        # add to dict. must have id, image_id, category_id, bbox, area, segmentation, iscrowd       
-        annotations['annotations'].append({'id': annotation_nr[0], 'image_id': i, 'category_id': 1, 'bbox': [x1, y1, w, h], 'area': w * h, 'segmentation': [contour], 'iscrowd': 0}) # contour must be added
+        # add to dict. must have id, image_id, category_id, bbox, area, segmentation, iscrowd, category_id is 2 for stickers       
+        annotations['annotations'].append({'id': annotation_nr[0], 'image_id': i, 'category_id': 2, 'bbox': [x1, y1, w, h], 'area': w * h, 'segmentation': [contour], 'iscrowd': 0}) # contour must be added
         annotation_nr[0] += 1
         cv.imshow("laptop", img)
 
