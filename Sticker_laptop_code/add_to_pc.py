@@ -9,11 +9,12 @@ import re
 import copy
 
 
-LAPTOP_PATH_TOP = 'annotated_top'
+LAPTOP_PATH_TOP = 'annotated_top_open'
 COMBINED_PATH = 'combined'
+COMBINED_MASKS_PATH = 'combined/masks'
 STICKER_PATH_WHITE = 'stickers_cut_white'
-# STICKER_PATH_BLACK = 'stickers_cut_black'
-STICKER_PATH_BLACK = 'C:/Users/emilb/Downloads/Stickers/Stickers'
+STICKER_PATH_BLACK = 'stickers_cut_black'
+# STICKER_PATH_BLACK = 'C:/Users/emilb/Downloads/Stickers/Stickers'
 
 WHITE = 0
 BLACK = 1
@@ -28,14 +29,18 @@ def trackbar_callback(val):
 def get_random_sticker(stickers_white, stickers_black):
     color = random.randint(WHITE, BLACK)
     sticker = None
-    if color == WHITE:
-        sticker = random.choice(stickers_white)
-        sticker = cv.imread(os.path.join(STICKER_PATH_WHITE, sticker))
-        cv.setTrackbarPos("sticker_trackbar", "sticker", 252)
-    else:
-        sticker = random.choice(stickers_black)
-        sticker = cv.imread(os.path.join(STICKER_PATH_BLACK, sticker))
-        cv.setTrackbarPos("sticker_trackbar", "sticker", 20)
+    while True:
+        if color == WHITE:
+            sticker = random.choice(stickers_white)
+            sticker = cv.imread(os.path.join(STICKER_PATH_WHITE, sticker))
+            cv.setTrackbarPos("sticker_trackbar", "sticker", 252)
+        else:
+            sticker = random.choice(stickers_black)
+            sticker = cv.imread(os.path.join(STICKER_PATH_BLACK, sticker))
+            cv.setTrackbarPos("sticker_trackbar", "sticker", 20)
+        
+        if sticker.shape[0] < 1000 and sticker.shape[1] < 1000:
+            break
     
     return sticker, color
     
@@ -118,17 +123,20 @@ def mouse_callback(event, x, y, flags, param):
 
 
         # at all the pixels in ret that are black (0) set the pixels in the laptop to the pixel in the sticker
+        annotation_mask = np.zeros((img.shape[0], img.shape[1]), dtype=np.uint8)
         for j in range(mask.shape[0]):
             for k in range(mask.shape[1]):
                 if mask[j, k] == 255:
                     img[y1 + j, x1 + k] = sticker[j, k]
+                    annotation_mask[y1 + j, x1 + k] = 255
         # draw a rectangle around the sticker
         # cv.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
         
 
 
         # add to dict. must have id, image_id, category_id, bbox, area, segmentation, iscrowd, category_id is 2 for stickers       
-        annotations['annotations'].append({'id': annotation_nr[0], 'image_id': i, 'category_id': 2, 'bbox': [x1, y1, w, h], 'area': w * h, 'segmentation': [contour], 'iscrowd': 0}) # contour must be added
+        annotations['annotations'].append({'id': annotation_nr[0], 'image_id': i, 'category_id': 2, 'bbox': [x1, y1, w, h], 'mask': f"{annotation_nr[0]}.png", 'area': w * h, 'segmentation': [contour], 'iscrowd': 0}) # contour must be added
+        cv.imwrite(os.path.join(COMBINED_MASKS_PATH, f"{annotation_nr[0]}.png"), annotation_mask)
         annotation_nr[0] += 1
         cv.imshow("laptop", img)
 
@@ -147,17 +155,23 @@ cv.setTrackbarMin('sticker_trackbar', 'sticker', 1)
 
 
 def add_to_pc():
+    # check if folder exists
+    if not os.path.exists(COMBINED_PATH):
+        os.makedirs(COMBINED_PATH)
+    # check if folder exists
+    if not os.path.exists(COMBINED_MASKS_PATH):
+        os.makedirs(COMBINED_MASKS_PATH)
+
     # list the laptops
     laptops = os.listdir(LAPTOP_PATH_TOP)
     stickers_white = os.listdir(STICKER_PATH_WHITE)
     stickers_black = os.listdir(STICKER_PATH_BLACK)
     previously_annotated = os.listdir(COMBINED_PATH)
+    previously_annotated = [string for string in previously_annotated if string.endswith('.jpg')]
+    laptops = [string for string in laptops if string.endswith('.jpg')]
+
+
     
-    if not previously_annotated:
-        i = 0
-    else:
-        image_numbers = [int(re.search(r'\d+', string).group()) for string in previously_annotated]
-        i = max(image_numbers) + 1
 
 
     annotations = {'categories': [{"id": 1, 'name': 'sticker', 'supercategory': 'none'}, {"id": 2, 'name': 'logo', 'supercategory': 'none'}],
@@ -179,7 +193,12 @@ def add_to_pc():
         #         annotation_nr[0] = annotation['id']
         # annotation_nr[0] += 1
 
-
+    if not previously_annotated:
+        i = 0
+    else:
+        # image_numbers = [int(re.search(r'\d+', string).group()) for string in previously_annotated]
+        image_ids = [image["id"] for image in annotations["images"]]
+        i = max(image_ids) + 1
 
     while(True):
         
@@ -294,6 +313,7 @@ def add_to_pc():
                     for annotation in coppied_annotations:
                         annotation['id'] = annotation_nr[0]
                         annotation['image_id'] = i
+
                         annotations['annotations'].append(annotation)
                         annotation_nr[0] += 1
                     # save the annotations

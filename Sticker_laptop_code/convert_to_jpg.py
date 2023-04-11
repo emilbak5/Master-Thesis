@@ -2,10 +2,10 @@ import os
 import json
 import cv2 as cv
 
-folder = "annotated_top"
+folder = "test_data"
 
 images = os.listdir(folder)
-with open("annotations.json", "r") as f:
+with open("test_data/result_test_data.json", "r") as f:
     annotations = json.load(f)
 
 for image in images:
@@ -19,6 +19,6 @@ for image in annotations["images"]:
     if image["file_name"].endswith(".png"):
         image["file_name"] = image["file_name"][:-4] + ".jpg"
 
-with open("annotations.json", "w") as f:
+with open("annotations_test_data.json", "w") as f:
     json.dump(annotations, f, indent=4)
 

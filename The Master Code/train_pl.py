@@ -1,4 +1,5 @@
 import pytorch_lightning as pl
+import torchmetrics
 
 from dataset_def_pl import StickerData
 from model_def_pl import StickerDetector
@@ -9,17 +10,39 @@ from lightning.pytorch.accelerators import find_usable_cuda_devices
 
 from utils import push_results_to_iphone
 import torch
+import warnings
+warnings.filterwarnings("ignore", ".*Consider increasing the value of the `num_workers` argument*")
 
 
 
-
-NUM_WORKERS = 4
-BATCH_SIZE = 4
+NUM_WORKERS = 2
+BATCH_SIZE = 3
 
 NUM_CLASSES = 3 # logo + sticker + background
-LEARNING_RATE = 0.005
+    
 WEIGHT_DECAY = 0.0005
 MOMENTUM = 0.9
+
+# MODEL_NAME = 'fasterrcnn_resnet50_fpn'
+# LEARNING_RATE = 0.005 # used for fasterrcnn_resnet50_fpn
+
+MODEL_NAME = 'fasterrcnn_resnet50_fpn_v2'
+LEARNING_RATE = 0.005 # used for fasterrcnn_resnet50_fpn
+
+# MODEL_NAME = 'ssd300_vgg16'
+# LEARNING_RATE = 0.0004 # better for ssd300_vgg16
+
+# MODEL_NAME = 'ssdlite320_mobilenet_v3_large'
+# LEARNING_RATE = 0.0004
+
+# MODEL_NAME = 'retinanet_resnet50_fpn'
+# LEARNING_RATE = 0.001
+
+# MODEL_NAME = 'retinanet_resnet50_fpn_v2'
+# LEARNING_RATE = 0.002
+
+
+
 
 CONFIG = {
     "lr": LEARNING_RATE,
@@ -29,9 +52,10 @@ CONFIG = {
 
 if __name__ == '__main__':
 
+
     torch.set_float32_matmul_precision("medium")
 
-    logger = TensorBoardLogger('lightning_logs', name='sticker_detection_v2', default_hp_metric=True)
+    logger = TensorBoardLogger('lightning_logs', name=MODEL_NAME, default_hp_metric=True, log_graph=True)
     early_stopping_callback = EarlyStopping(monitor='Validation/mAP', min_delta=0.001, patience=4, verbose=True, mode='max', check_on_train_epoch_end=False)
     # torch check for cuda devices
     # print(torch.cuda.is_available())
@@ -41,21 +65,25 @@ if __name__ == '__main__':
         devices=find_usable_cuda_devices(1), 
         max_epochs=70, 
         logger=logger, 
-        check_val_every_n_epoch=1, 
+        limit_train_batches=1.0,
+        check_val_every_n_epoch=1,
+        # val_check_interval=0.1, 
         log_every_n_steps=1, 
         auto_scale_batch_size='binsearch', 
         num_sanity_val_steps=0,
+        
         callbacks=[early_stopping_callback]
         )
 
 
     data_module = StickerData(train_folder='data_stickers/train', valid_folder='data_stickers/valid', test_folder='data_stickers/test', batch_size=BATCH_SIZE, num_workers=NUM_WORKERS)
 
-    model = StickerDetector(num_classes=NUM_CLASSES, config=CONFIG, batch_size=BATCH_SIZE)
+    model = StickerDetector(num_classes=NUM_CLASSES, config=CONFIG, batch_size=BATCH_SIZE, model_name=MODEL_NAME)
     
     # trainer.tune(model, datamodule=data_module)
 
     torch.cuda.empty_cache()
+    data_module.setup('fit')
     trainer.validate(model, datamodule=data_module)
     trainer.fit(model, data_module)
 

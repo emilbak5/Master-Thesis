@@ -1,3 +1,4 @@
 **/*.png
 **/*.jpg
 *.ckpt
+lightning_logs/

@@ -5,9 +5,13 @@ from tqdm import tqdm
 import cv2 as cv
 
 
-images = os.listdir("data_stickers/augmented")
-with open("data_stickers/augmented/annotations.coco.json", "r") as f:
+images = os.listdir("data_stickers/train")
+with open("data_stickers/train/annotations.coco.json", "r") as f:
     annotations = json.load(f)
+
+# images = os.listdir("data_stickers/train")
+# with open("data_stickers/train/annotations.coco.json", "r") as f:
+#     annotations = json.load(f)
 
 # cv.namedWindow("image", cv.WINDOW_NORMAL)
 
@@ -20,8 +24,8 @@ for image_name in tqdm(images):
     if not image_name.endswith(".jpg"):
         continue
 
-    img = cv.imread(os.path.join("data_stickers/augmented", image_name))
-    image_id = [image['id'] for image in annotations['images'] if image['file_name'][61:] == image_name][0]
+    img = cv.imread(os.path.join("data_stickers/train", image_name))
+    image_id = [image['id'] for image in annotations['images'] if image['file_name'] == image_name][0]
 
     assert image_id != None, "Image id not found"
 

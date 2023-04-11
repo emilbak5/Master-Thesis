@@ -2,15 +2,52 @@ import albumentations as A
 
 import cv2
 
+
+import copy
 import numpy as np
 import os
 import json
 from tqdm import tqdm
 
-IMAGES_FOLDER_PATH = 'data_stickers/train'
-ANNOTATIONS_PATH = 'data_stickers/train/annotations_og.coco.json'
+IMAGES_FOLDER_PATH = 'annotated_top'
+IMAGES_MASKS_FOLDER_PATH = 'annotated_top/masks'
+ANNOTATIONS_PATH = 'annotations_test.json'
 
 DATASET_MULTIPLICATION_SIZE = 1
+
+
+def convert_np_arrays_to_lists(data):
+    if isinstance(data, dict):
+        return {k: convert_np_arrays_to_lists(v) for k, v in data.items()}
+    elif isinstance(data, list):
+        return [convert_np_arrays_to_lists(item) for item in data]
+    elif isinstance(data, np.ndarray):
+        return data.tolist()
+    else:
+        return data
+
+def find_types(data):
+    encountered_types = []
+    if isinstance(data, dict):
+        items = data.items()
+    elif isinstance(data, (list, tuple)):
+        items = enumerate(data)
+    else:
+        # check if type is a numpy type
+        if type(data).__module__ == np.__name__:
+            x = 5
+        return [type(data)]
+    
+    for key, value in items:
+        val_type = type(value)
+        if val_type not in encountered_types:
+            encountered_types.append(val_type)
+        nested_types = find_types(value)
+        for t in nested_types:
+            if t not in encountered_types:
+                encountered_types.append(t)
+                
+    return encountered_types
 
 def augment_images():
 
@@ -29,7 +66,7 @@ def augment_images():
     # cv2.namedWindow('transformed_image', cv2.WINDOW_NORMAL)
 
     for i in range(DATASET_MULTIPLICATION_SIZE):
-        for image_name in tqdm(images[:40]):
+        for image_name in tqdm(images):
             number_of_augments = np.random.randint(1, 5)
 
             transform = A.Compose([
@@ -51,12 +88,12 @@ def augment_images():
             image = cv2.imread(os.path.join(IMAGES_FOLDER_PATH, image_name))
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             # cv2.imshow('image', image)
-            image_id = [image['id'] for image in annotations['images'] if image['file_name'][61:] == image_name]
+            image_id = [copy.deepcopy(image['id']) for image in annotations['images'] if image['file_name'] == image_name]
             # find the annotations for the image
-            image_annotations = [annotation for annotation in annotations['annotations'] if annotation['image_id'] == image_id[0]]
-            annotation_ids = [annotation['id'] for annotation in image_annotations]
+            image_annotations = [copy.deepcopy(annotation) for annotation in annotations['annotations'] if annotation['image_id'] == image_id[0]]
+            annotation_ids = [copy.deepcopy(annotation['id']) for annotation in image_annotations]
             # get the bounding boxes
-            segmentations = [annotation['segmentation'] for annotation in image_annotations]
+            segmentations = [copy.deepcopy(annotation['segmentation']) for annotation in image_annotations]
             segmentations_new = []
             for segmentation in segmentations:
                 # convert segmentation to this formart [(x1, y1), (x2, y2), (x3, y3), (x4, y4)] from  [[x1, y1, x2, y2, x3, y3, x4, y4]]
@@ -64,7 +101,7 @@ def augment_images():
                 segmentations_new.append(segmentation)
             
             segmentations_lengths = [len(segmentation) for segmentation in segmentations_new]
-            bboxes = [annotation["bbox"] for annotation in image_annotations]
+            bboxes = [copy.deepcopy(annotation["bbox"]) for annotation in image_annotations]
             class_labels = [annotation["category_id"] for annotation in image_annotations]
             class_labels_for_segment = []
             for i, label in enumerate(class_labels):
@@ -117,18 +154,19 @@ def augment_images():
                 "id": 10000 + image_count,
                 "width": transformed_image.shape[1],
                 "height": transformed_image.shape[0],
-                "file_name": annotations['images'][0]['file_name'][:61] + 'augmented_image' + str(10000 + image_count) + '.jpg',
+                "file_name": 'augmented_image' + str(10000 + image_count) + '.jpg',
             })
             transformed_segmentations_splits_original_format = []
             for transformed_segmentations_split in transformed_segmentations_splits:
                 # return transformed_segmentations_split to the original format: [x1, y1, x2, y2, x3, y3, x4, y4]
-                transformed_segmentations_split = [segmentation for segmentation in transformed_segmentations_split for segmentation in segmentation]
+                transformed_segmentations_split = [float(segmentation) for segmentation in transformed_segmentations_split for segmentation in segmentation]
                 transformed_segmentations_splits_original_format.append(transformed_segmentations_split)
             
             assert len(transformed_segmentations_splits_original_format) == len(bounding_boxes_new) == len(class_labels) == len(annotation_ids)
 
             for transformed_segment, transformed_bbox, class_label, id in zip(transformed_segmentations_splits_original_format, bounding_boxes_new, class_labels, annotation_ids):
-                annotations['annotations'].append({
+                
+                new_anno = {
                     "id": 10000 + annotation_count,
                     "image_id": 10000 + image_count,
                     "category_id": class_label,
@@ -137,7 +175,8 @@ def augment_images():
                     "ignore": 0,
                     "iscrowd": 0,
                     "area": transformed_bbox[2] * transformed_bbox[3]
-                })
+                }
+                annotations['annotations'].append(new_anno)
                 annotation_count += 1
             # cv2.putText(transformed_image, str(class_label[0]), (int(segmentation[0][0]), int(segmentation[0][1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
             
@@ -161,6 +200,9 @@ def augment_images():
                 os.makedirs('data_stickers/augmented/')
             cv2.imwrite('data_stickers/augmented/' + 'augmented_image' + str(10000 + image_count) + '.jpg', transformed_image)
             image_count += 1
+
+
+    test = find_types(annotations)
 
     # with open('data_stickers/train/annotations.coco.json', 'w') as outfile:
     #     json.dump(annotations, outfile, indent=4)

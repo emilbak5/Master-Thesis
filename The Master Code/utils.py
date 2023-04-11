@@ -14,7 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 LABELS = {'Background': 0, 'Logo': 1, 'Sticker': 2}
-MIN_SCORE = 0.2
+MIN_SCORE = 0.7
 
 
 
@@ -88,12 +88,13 @@ def show_10_images_with_bounding_boxes(model, dataset: StickerData, check_point_
         target_labels = [key for value in target_labels for key, val in LABELS.items() if val == value]
 
         # draw bounding boxes on image. target should be green and prediction should be red
-        for box, label in zip(boxes, labels): 
-            image = cv.rectangle(image, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (255, 0, 0), 2)
-            image = cv.putText(image, str(label), (int(box[0]), int(box[1])), cv.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0), 3, cv.LINE_AA) # (255,0,0) is blue
         for box, label in zip(target_boxes, target_labels):
             image = cv.rectangle(image, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 2)
             image = cv.putText(image, str(label), (int(box[0]), int(box[1])), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 3, cv.LINE_AA)
+        for box, label in zip(boxes, labels): 
+            image = cv.rectangle(image, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (255, 0, 0), 2)
+            image = cv.putText(image, str(label), (int(box[0]), int(box[1])), cv.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0), 3, cv.LINE_AA) # (255,0,0) is blue
+
 
         images_for_grid.append(image)
 
@@ -141,13 +142,37 @@ def make_images_for_tensorboard(pred, target):
     labels_target = target[random_image_nr]['labels'].tolist()
     labels_pred = pred[random_image_nr]['labels'].tolist()
 
+    boxes_target = target[random_image_nr]['boxes']
+    boxes_pred = pred[random_image_nr]['boxes'].tolist()
+
+    scores = pred[random_image_nr]['scores'].tolist()
+
+
+    # loop BACKWARDS through the scores. if a score is < 0.5 then remove the bounding box and label
+    for j in range(len(scores)-1, -1, -1):
+        if scores[j] < MIN_SCORE:
+            boxes_pred = np.delete(boxes_pred, j, 0)
+            labels_pred = np.delete(labels_pred, j, 0)
+
     # Convert labels to string
     labels_target = [key for value in labels_target for key, val in LABELS.items() if val == value]
-    labels_pred = [key for value in labels_pred for key, val in LABELS.items() if val == value] 
+    labels_pred = [key for value in labels_pred for key, val in LABELS.items() if val == value]
 
-    bb_image = draw_bounding_boxes(image=image, boxes=target[random_image_nr]['boxes'], labels=labels_target, colors=(0, 255, 0), width=3)
-    bb_image = draw_bounding_boxes(image=bb_image, boxes=pred[random_image_nr]['boxes'], labels=labels_pred, colors=(0, 0, 255), width=3)
+    if type(boxes_pred) == list:
+        boxes_pred = np.array(boxes_pred)
 
+    # convert to tensor from numpy
+    boxes_pred = torch.from_numpy(boxes_pred)
+    
+
+    bb_image = draw_bounding_boxes(image=image, boxes=boxes_target, labels=labels_target, colors=(0, 255, 0), width=3)
+
+    # make sure the tensor boxes_pred is not empty
+    if boxes_pred.shape[0] != 0:
+        bb_image = draw_bounding_boxes(image=bb_image, boxes=boxes_pred, labels=labels_pred, colors=(0, 0, 255), width=3)
+    
+    
+    
 
     #resize image to 80 % of original size
     bb_image = transforms.Resize(size=(int(bb_image.shape[1] * 0.8), int(bb_image.shape[2] * 0.8)))(bb_image)

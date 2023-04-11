@@ -4,6 +4,8 @@ from torchvision import transforms
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
+from pytorch_lightning.utilities.fetching import AbstractDataFetcher
+
 
 import pytorch_lightning as pl
 
@@ -44,7 +46,7 @@ class StickerDataset(torch.utils.data.Dataset):
         image_name = self.images[idx].split('/')[-1]
 
         # get the image id and annotations for the image
-        image_id = [self.annotations['images'][i]['id'] for i in range(len(self.annotations['images'])) if self.annotations['images'][i]['file_name'][61:] == image_name]
+        image_id = [self.annotations['images'][i]['id'] for i in range(len(self.annotations['images'])) if self.annotations['images'][i]['file_name'] == image_name]
         if len(image_id) != 1:
             print(image_name)
         assert len(image_id) == 1
@@ -119,18 +121,24 @@ class StickerData(pl.LightningDataModule):
 
         if stage == "fit":
             self.train_dataset = StickerDataset(self.train_folder, transforms=self.transform)
-        self.valid_dataset = StickerDataset(self.valid_folder, transforms=self.transform)
+            self.valid_dataset = StickerDataset(self.valid_folder, transforms=self.transform)
 
         # Assign test dataset for use in dataloader(s)
         if stage == "test":
             self.test_dataset = StickerDataset(self.test_folder, transforms=self.transform)
     
     def train_dataloader(self):
-        return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers, collate_fn=collate_fn)
+        if self.num_workers == 0:
+            return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=False)
+        return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=True)
     
     def val_dataloader(self):
-        return DataLoader(self.valid_dataset, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers, collate_fn=collate_fn)
+        if self.num_workers == 0:
+            return DataLoader(self.valid_dataset, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=False)
+        return DataLoader(self.valid_dataset, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=True)
     
     def test_dataloader(self):
-        return DataLoader(self.test_dataset, batch_size=1, shuffle=False, num_workers=self.num_workers, collate_fn=collate_fn)
+        if self.num_workers == 0:
+            return DataLoader(self.test_dataset, batch_size=1, shuffle=False, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=False)
+        return DataLoader(self.test_dataset, batch_size=1, shuffle=False, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=True)
     

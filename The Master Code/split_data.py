@@ -35,7 +35,7 @@ def split_data(data_raw_path='data_raw_stickers/', val_size=0.2, test_size=0.1, 
 
 
     # read data_raw\_annotations.coco.json
-    with open(data_raw_path + "result.json") as f:
+    with open(data_raw_path + "annotations.json") as f:
         annotations = json.load(f)
     
     train_annotations = {'categories': annotations['categories'], 'images': [], 'annotations': []}
@@ -46,11 +46,11 @@ def split_data(data_raw_path='data_raw_stickers/', val_size=0.2, test_size=0.1, 
 
     # create the annotations for each split
     for image in annotations['images']:
-        if image['file_name'][61:] in train_set:
+        if image['file_name'] in train_set:
             train_annotations['images'].append(image)
-        elif image['file_name'][61:] in val_set:
+        elif image['file_name'] in val_set:
             val_annotations['images'].append(image)
-        elif image['file_name'][61:] in test_set:
+        elif image['file_name'] in test_set:
             test_annotations['images'].append(image)
         else:
             print("Image not in any split")
@@ -66,12 +66,9 @@ def split_data(data_raw_path='data_raw_stickers/', val_size=0.2, test_size=0.1, 
             if annotation['image_id'] == image['id']:
                 test_annotations['annotations'].append(annotation)
 
-    # # for each annotation change the category_id to 1'
-    # for annotation in train_annotations['annotations']:
-    #     annotation['category_id'] = 1
 
     
-    # create the folders for the splits if they don't exist
+    # # create the folders for the splits if they don't exist
     if not os.path.exists("data_stickers/train"):
         os.makedirs("data_stickers/train")
     if not os.path.exists("data_stickers/valid"):

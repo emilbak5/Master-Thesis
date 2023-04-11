@@ -6,6 +6,7 @@ import cv2 as cv
 
 
 images = os.listdir("combined")
+images = [image for image in images if image.endswith(".jpg")]
 with open("annotations.json", "r") as f:
     annotations = json.load(f)
 
@@ -19,8 +20,11 @@ if not os.path.exists("combined_bboxes"):
 for image_name in tqdm(images):
 
     img = cv.imread(os.path.join("combined", image_name))
-    image_id = [image['id'] for image in annotations['images'] if image['file_name'] == image_name][0]
+    image_id = [image['id'] for image in annotations['images'] if image['file_name'] == image_name]
 
+    if len(image_id) > 1:
+        x = 5
+    image_id = image_id[0]    
     assert image_id != None, "Image id not found"
 
     # find the annotations for the image
