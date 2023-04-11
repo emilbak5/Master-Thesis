@@ -22,22 +22,23 @@ from model_def_pl import StickerDetector
 import os
 
 
-DATA_TRAIN_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/The Master Code/data_stickers/train'
-DATA_VALID_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/The Master Code/data_stickers/valid'
-DATA_TEST_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/The Master Code/data_stickers/test'
+DATA_TRAIN_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/Master-Thesis/The Master Code/data_stickers/train'
+DATA_VALID_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/Master-Thesis/The Master Code/data_stickers/valid'
+DATA_TEST_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/Master-Thesis/The Master Code/data_stickers/test'
 
-LOGGER_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/The Master Code/lightning_logs'
+LOGGER_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/Master-Thesis/The Master Code/lightning_logs'
+
+MODEL_NAME = 'fasterrcnn_resnet50_fpn_v2'
 
 
-
-NUM_WORKERS = 4
+NUM_WORKERS = 1
 BATCH_SIZE = 2
 NUM_EPOCHS = 50
 NUM_SAMPLES = 1
 
 
 
-def train_sticker_tune(config):
+def train_sticker_tune(config, num_epochs=10, num_gpus=0):
 
 
     torch.set_float32_matmul_precision("medium")
@@ -48,45 +49,24 @@ def train_sticker_tune(config):
     tune_callback = TuneReportCallback({'map': 'Validation/mAP' }, on='validation_end')
 
     trainer = pl.Trainer(
-        # gpus=1,
-        # strategy=RayStrategy(num_workers=2, use_gpu=True, num_cpus_per_worker=0.5),
-        # accelerator="cuda",
-        # devices=find_usable_cuda_devices(1), 
-        plugins=[RayStrategy(num_workers=1, use_gpu=True, num_cpus_per_worker=1.0)],
-        max_epochs=50, 
+        gpus=num_gpus,
+        max_epochs=num_epochs, 
         logger=logger, 
-        enable_progress_bar=False,
-        check_val_every_n_epoch=5, 
+        check_val_every_n_epoch=1,
+        progress_bar_refresh_rate=0,
+        # val_check_interval=0.1, 
         log_every_n_steps=1, 
-        auto_scale_batch_size='binsearch', 
         num_sanity_val_steps=0,
+        
         callbacks=[early_stopping_callback, tune_callback]
         )
 
     data_module = StickerData(train_folder=DATA_TRAIN_PATH, valid_folder=DATA_VALID_PATH, test_folder=DATA_TEST_PATH, batch_size=BATCH_SIZE, num_workers=NUM_WORKERS)
 
-    model = StickerDetector(num_classes=2, config=config, batch_size=BATCH_SIZE)
+    model = StickerDetector(num_classes=3, config=config, batch_size=BATCH_SIZE, model_name=MODEL_NAME)
     
-    # trainer.tune(model, datamodule=data_module)
-
     trainer.fit(model, data_module)
-    # model = LightningMNISTClassifier(config, data_dir)
-    # trainer = pl.Trainer(
-    #     max_epochs=num_epochs,
-    #     # If fractional GPUs passed in, convert to int.
-    #     gpus=math.ceil(num_gpus),
-    #     logger=TensorBoardLogger(
-    #         save_dir=os.getcwd(), name="", version="."),
-    #     enable_progress_bar=False,
-    #     callbacks=[
-    #         TuneReportCallback(
-    #             {
-    #                 "loss": "ptl/val_loss",
-    #                 "mean_accuracy": "ptl/val_accuracy"
-    #             },
-    #             on="validation_end")
-    #     ])
-    # trainer.fit(model)
+
 
 
 def tune_sticker_asha(num_samples=NUM_SAMPLES, num_epochs=NUM_EPOCHS, gpus_per_trial=1):
@@ -97,19 +77,65 @@ def tune_sticker_asha(num_samples=NUM_SAMPLES, num_epochs=NUM_EPOCHS, gpus_per_t
         "momentum": tune.uniform(0.1, 0.99),
         "weight_decay": tune.loguniform(1e-4, 1e-1),
         }
-    tuner = tune.Tuner(
-        tune.with_resources(train_sticker_tune, {"cpu": 1.0, "gpu": 1.0}),  
-        tune_config=tune.TuneConfig(
-                metric="Validation/mAP",
-                mode="max",
-                num_samples=2
-            ),
-            param_space=config,
-            run_config=air.RunConfig(name="tune_mnist"),
+    
+
+    # trainable = tune.with_parameters(
+    #     train_sticker_tune,
+    #     num_epochs=num_epochs,
+    #     num_gpus=gpus_per_trial)
+    
+    reporter = CLIReporter(
+        parameter_columns=["lr", "momentum", "weight_decay"],
+        metric_columns=["training_iteration"]
         )
 
-    results = tuner.fit()
-    print("Best hyperparameters found were: ", results.best_config)
+    analysis = tune.run(
+                        partial(
+                        train_sticker_tune,
+                        num_epochs=num_epochs,
+                        num_gpus=gpus_per_trial
+                        ),
+                        resources_per_trial={
+                            "cpu": 1,
+                            "gpu": gpus_per_trial
+                        },
+                        metric="Validation/mAP",
+                        mode="max",
+                        config=config,
+                        num_samples=num_samples,
+                        progress_reporter=reporter,
+                        name="tune_sticker")
+    
+    print(analysis.best_config)
+
+    # scheduler = ASHAScheduler(
+    #     max_t=num_epochs,
+    #     grace_period=1,
+    #     reduction_factor=2)
+    
+    # reporter = CLIReporter(
+    #     parameter_columns=["lr", "momentum", "weight_decay"],
+    #     metric_columns=["loss", "val_map", "training_iteration"])
+    
+
+    # train_fn_with_parameters = tune.with_parameters(train_sticker_tune,
+    #                                                 num_epochs=num_epochs,
+    #                                                 num_gpus=gpus_per_trial
+    #                                                 )
+
+    # tuner = tune.Tuner(
+    #     tune.with_resources(train_sticker_tune, {"cpu": 1.0, "gpu": 1.0}),  
+    #     tune_config=tune.TuneConfig(
+    #             metric="Validation/mAP",
+    #             mode="max",
+    #             num_samples=2
+    #         ),
+    #         param_space=config,
+    #         run_config=air.RunConfig(name="tune_mnist"),
+    #     )
+
+    # results = tuner.fit()
+    # print("Best hyperparameters found were: ", results.best_config)
 
     # # analysis = tune.run(
     # #         train_sticker_tune,
@@ -122,14 +148,8 @@ def tune_sticker_asha(num_samples=NUM_SAMPLES, num_epochs=NUM_EPOCHS, gpus_per_t
             
     # # print("Best hyperparameters found were: ", analysis.best_config)
 
-    # scheduler = ASHAScheduler(
-    #     max_t=num_epochs,
-    #     grace_period=1,
-    #     reduction_factor=2)
 
-    # reporter = CLIReporter(
-    #     parameter_columns=["lr", "momentum", "weight_decay"],
-    #     metric_columns=["loss", "val_map", "training_iteration"])
+
 
     # train_fn_with_parameters = tune.with_parameters(train_sticker_tune,
     #                                                 num_epochs=num_epochs,

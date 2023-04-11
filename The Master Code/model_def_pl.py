@@ -171,9 +171,9 @@ class StickerDetector(pl.LightningModule):
         self.map_metric.reset()
 
         
-        image = make_images_for_tensorboard(outputs[0]['model_preds'], outputs[0]['targets'])
+        # image = make_images_for_tensorboard(outputs[0]['model_preds'], outputs[0]['targets'])
         tensorboard_logger = self.logger.experiment
-        tensorboard_logger.add_image('Validation/Example', image, self.global_step)
+        # tensorboard_logger.add_image('Validation/Example', image, self.global_step)
 
         
 
