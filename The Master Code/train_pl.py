@@ -5,7 +5,7 @@ from dataset_def_pl import StickerData
 from model_def_pl import StickerDetector
 
 from pytorch_lightning.loggers import TensorBoardLogger
-from pytorch_lightning.callbacks import EarlyStopping
+from pytorch_lightning.callbacks import EarlyStopping, StochasticWeightAveraging
 from lightning.pytorch.accelerators import find_usable_cuda_devices
 
 from utils import push_results_to_iphone
@@ -55,8 +55,9 @@ if __name__ == '__main__':
 
     torch.set_float32_matmul_precision("medium")
 
-    logger = TensorBoardLogger('lightning_logs', name=MODEL_NAME, default_hp_metric=True, log_graph=True)
+    logger = TensorBoardLogger('lightning_logs', name=MODEL_NAME, default_hp_metric=True, log_graph=False)
     early_stopping_callback = EarlyStopping(monitor='Validation/mAP', min_delta=0.001, patience=4, verbose=True, mode='max', check_on_train_epoch_end=False)
+    SWA_callback = StochasticWeightAveraging(swa_lrs=1e-2)
     # torch check for cuda devices
     # print(torch.cuda.is_available())
     # print(find_usable_cuda_devices(1))
@@ -65,14 +66,15 @@ if __name__ == '__main__':
         devices=find_usable_cuda_devices(1), 
         max_epochs=70, 
         logger=logger, 
-        limit_train_batches=1.0,
+        limit_train_batches=0.25,
         check_val_every_n_epoch=1,
         # val_check_interval=0.1, 
         log_every_n_steps=1, 
         auto_scale_batch_size='binsearch', 
         num_sanity_val_steps=0,
+        accumulate_grad_batches=4,
         
-        callbacks=[early_stopping_callback]
+        callbacks=[early_stopping_callback, SWA_callback]
         )
 
 
@@ -87,7 +89,7 @@ if __name__ == '__main__':
     trainer.validate(model, datamodule=data_module)
     trainer.fit(model, data_module)
 
-    push_results_to_iphone(trainer=trainer, model=model, datamodule=data_module)
+    # push_results_to_iphone(trainer=trainer, model=model, datamodule=data_module)
 
 
 

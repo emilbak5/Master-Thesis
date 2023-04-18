@@ -13,7 +13,7 @@ IMAGES_FOLDER_PATH = 'data_stickers/train'
 IMAGES_MASKS_FOLDER_PATH = 'data_stickers/train/masks'
 ANNOTATIONS_PATH = 'data_stickers/train/annotations.coco.json'
 
-DATASET_MULTIPLICATION_SIZE = 1
+DATASET_MULTIPLICATION_SIZE = 3
 
 
 def convert_np_arrays_to_lists(data):

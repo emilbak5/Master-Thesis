@@ -17,12 +17,15 @@ def collate_fn(batch):
     return tuple(zip(*batch))
 
 class StickerDetector(pl.LightningModule):
-    def __init__(self, num_classes=3, config=None, batch_size=2, model_name='fasterrcnn_resnet50_fpn'):
+    def __init__(self, num_classes=3, config=None, model_name='fasterrcnn_resnet50_fpn'):
         super(StickerDetector, self).__init__()
+
+        self.first_batch = True
 
         learning_rate = config['lr']
         momentum = config['momentum']
         weight_decay = config['weight_decay']
+        batch_size = config['batch_size']
 
         # self.example_input_array = torch.Tensor(batch_size, 3, 2048, 2448)
         
@@ -33,37 +36,37 @@ class StickerDetector(pl.LightningModule):
         self.model_name = model_name
 
         if self.model_name == 'fasterrcnn_resnet50_fpn':
-            self.model = torchvision.models.detection.fasterrcnn_resnet50_fpn(weights='DEFAULT')
+            self.model = torchvision.models.detection.fasterrcnn_resnet50_fpn(weights='DEFAULT', trainable_backbone_layers=5)
             in_features = self.model.roi_heads.box_predictor.cls_score.in_features
             self.model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
         elif self.model_name == 'fasterrcnn_resnet50_fpn_v2':    
-            self.model = torchvision.models.detection.fasterrcnn_resnet50_fpn_v2(weights='DEFAULT')
+            self.model = torchvision.models.detection.fasterrcnn_resnet50_fpn_v2(weights='DEFAULT', trainable_backbone_layers=5)
             in_features = self.model.roi_heads.box_predictor.cls_score.in_features
             self.model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
         elif self.model_name == 'ssd300_vgg16':
-            self.model = torchvision.models.detection.ssd300_vgg16(weights='DEFAULT')
+            self.model = torchvision.models.detection.ssd300_vgg16(weights='DEFAULT', trainable_backbone_layers=5)
             out_channgels = det_utils.retrieve_out_channels(self.model.backbone, (300, 300))
             anchor_generator = self.model.anchor_generator
             num_anchors = anchor_generator.num_anchors_per_location()
             self.model.head.classification_head = SSDClassificationHead(out_channgels, num_anchors, num_classes)
         
         elif self.model_name == 'ssdlite320_mobilenet_v3_large':
-            self.model = torchvision.models.detection.ssdlite320_mobilenet_v3_large(weights='DEFAULT')
+            self.model = torchvision.models.detection.ssdlite320_mobilenet_v3_large(weights='DEFAULT', trainable_backbone_layers=6)
             out_channgels = det_utils.retrieve_out_channels(self.model.backbone, (320, 320))
             anchor_generator = self.model.anchor_generator
             num_anchors = anchor_generator.num_anchors_per_location()
             self.model.head.classification_head = SSDClassificationHead(out_channgels, num_anchors, num_classes)
 
         elif self.model_name == 'retinanet_resnet50_fpn':
-            self.model = torchvision.models.detection.retinanet_resnet50_fpn(weights='DEFAULT')
+            self.model = torchvision.models.detection.retinanet_resnet50_fpn(weights='DEFAULT', trainable_backbone_layers=5)
             num_anchors = self.model.head.classification_head.num_anchors
             out_channgels = self.model.backbone.out_channels
             self.model.head.classification_head = RetinaNetClassificationHead(in_channels=out_channgels, num_anchors=num_anchors, num_classes=num_classes)
 
         elif self.model_name == 'retinanet_resnet50_fpn_v2':
-            self.model = torchvision.models.detection.retinanet_resnet50_fpn_v2(weights='DEFAULT')
+            self.model = torchvision.models.detection.retinanet_resnet50_fpn_v2(weights='DEFAULT', trainable_backbone_layers=5)
             num_anchors = self.model.head.classification_head.num_anchors
             out_channgels = self.model.backbone.out_channels
             self.model.head.classification_head = RetinaNetClassificationHead(in_channels=out_channgels, num_anchors=num_anchors, num_classes=num_classes)
@@ -108,11 +111,7 @@ class StickerDetector(pl.LightningModule):
 
     def training_step(self, train_batch, batch_idx):
         
-        if self.global_step == 0:
-            prototype_array = torch.rand(32, 3, 2048, 2448).cuda()
-            script_model = torch.jit.script(self.model, prototype_array)
-            self.logger.experiment.add_graph(script_model, prototype_array)
-            # script_mode
+
             
         images, targets = train_batch
 
@@ -127,6 +126,25 @@ class StickerDetector(pl.LightningModule):
         # else:    
         loss_dict["loss"] = sum(loss for loss in loss_dict.values()) / len(loss_dict)
 
+        if self.first_batch:
+            # prototype_array = torch.rand(32, 3, 2048, 2448).cuda()
+            # script_model = torch.jit.script(self.model, prototype_array)
+            # self.logger.experiment.add_graph(script_model, prototype_array)
+            # log the loss
+            if self.model_name == 'fasterrcnn_resnet50_fpn' or self.model_name == 'fasterrcnn_resnet50_fpn_v2':
+                self.logger.experiment.add_scalar('Train/Loss', loss_dict["loss"], 0)
+                self.logger.experiment.add_scalar('Train/Loss_classifier', loss_dict["loss_classifier"], 0)
+                self.logger.experiment.add_scalar('Train/Loss_box_reg', loss_dict["loss_box_reg"], 0)
+                self.logger.experiment.add_scalar('Train/Loss_objectness', loss_dict["loss_objectness"], 0)
+                self.logger.experiment.add_scalar('Train/Loss_rpn_box_reg', loss_dict["loss_rpn_box_reg"], 0)
+            else: # same for ssd and retinanet
+                self.logger.experiment.add_scalar('Train/Loss', loss_dict["loss"], 0)
+                self.logger.experiment.add_scalar('Train/Loss_classifier', loss_dict["classification"], 0)
+                self.logger.experiment.add_scalar('Train/Loss_box_reg', loss_dict["bbox_regression"], 0)
+
+
+
+            self.first_batch = False
 
         return loss_dict
 
@@ -171,9 +189,9 @@ class StickerDetector(pl.LightningModule):
         self.map_metric.reset()
 
         
-        # image = make_images_for_tensorboard(outputs[0]['model_preds'], outputs[0]['targets'])
+        image = make_images_for_tensorboard(outputs[0]['model_preds'], outputs[0]['targets'])
         tensorboard_logger = self.logger.experiment
-        # tensorboard_logger.add_image('Validation/Example', image, self.global_step)
+        tensorboard_logger.add_image('Validation/Example', image, self.global_step)
 
         
 
@@ -182,8 +200,22 @@ class StickerDetector(pl.LightningModule):
     def configure_optimizers(self):
         parameters = [p for p in self.model.parameters() if p.requires_grad]
         optimizer = torch.optim.SGD(parameters, lr=self.hparams["learning_rate"], momentum=self.hparams["momentum"], weight_decay=self.hparams["weight_decay"])
-        # use adam optimizer
-        # optimizer = torch.optim.Adam(parameters, lr=self.hparams["learning_rate"], weight_decay=self.hparams["weight_decay"])
+
+        if self.model_name == "fasterrcnn_resnet50_fpn" or self.model_name == "fasterrcnn_resnet50_fpn_v2" or \
+                                                           self.model_name == "retinanet_resnet50_fpn" or \
+                                                           self.model_name == "retinanet_resnet50_fpn_v2":
+            
+            lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[16, 22], gamma=0.1)
+            return [optimizer], [lr_scheduler]
+        
+        elif self.model_name == self.model_name == "ssdlite320_mobilenet_v3_large":
+            lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, T_max=120)
+            return [optimizer], [lr_scheduler]
+        
+        elif self.model_name == "ssd300_vgg16":
+            lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer=optimizer, milestones=[80, 110], gamma=0.1)
+            return [optimizer], [lr_scheduler]
+
         return optimizer
     
 

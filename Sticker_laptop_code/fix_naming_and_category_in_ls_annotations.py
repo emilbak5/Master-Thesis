@@ -7,12 +7,12 @@ import cv2 as cv
 
 
 
-FOLDER = "annotated_top_open"
+FOLDER = "test_data"
 
 
 images = os.listdir(FOLDER)
 
-with open('result.json', 'r') as f:
+with open('test_data/result_test_data.json', 'r') as f:
     annotations = json.load(f)
 
 for image in tqdm(annotations['images']):
@@ -52,7 +52,7 @@ for image in annotations["images"]:
     if image["file_name"].endswith(".png"):
         image["file_name"] = image["file_name"][:-4] + ".jpg"
 
-with open('annotations_top_open.json', 'w') as f:
+with open('annotations_test_data.json', 'w') as f:
     json.dump(annotations, f, indent=4)
     
 

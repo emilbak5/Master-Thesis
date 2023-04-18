@@ -7,7 +7,7 @@ import os
 
 
 
-NUM_IMAGES = 16
+NUM_IMAGES = 33
 
 NUM_WORKERS = 0
 BATCH_SIZE = 6
@@ -29,7 +29,7 @@ LEARNING_RATE = 0.005 # used for fasterrcnn_resnet50_fpn
 # MODEL_NAME = 'retinanet_resnet50_fpn'
 # LEARNING_RATE = 0.005
 
-TRAINING_VERSION = 4
+TRAINING_VERSION = 2
 
 CHECKPOINT_PATH = 'lightning_logs/' + MODEL_NAME + '/version_' + str(TRAINING_VERSION) + '/checkpoints'
 

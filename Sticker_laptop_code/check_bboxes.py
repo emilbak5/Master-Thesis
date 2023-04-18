@@ -5,9 +5,9 @@ from tqdm import tqdm
 import cv2 as cv
 
 
-images = os.listdir("combined")
+images = os.listdir("test_data")
 images = [image for image in images if image.endswith(".jpg")]
-with open("annotations.json", "r") as f:
+with open("annotations_test_data.json", "r") as f:
     annotations = json.load(f)
 
 # cv.namedWindow("image", cv.WINDOW_NORMAL)
@@ -19,7 +19,7 @@ if not os.path.exists("combined_bboxes"):
 
 for image_name in tqdm(images):
 
-    img = cv.imread(os.path.join("combined", image_name))
+    img = cv.imread(os.path.join("test_data", image_name))
     image_id = [image['id'] for image in annotations['images'] if image['file_name'] == image_name]
 
     if len(image_id) > 1:

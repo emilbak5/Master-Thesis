@@ -14,7 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 LABELS = {'Background': 0, 'Logo': 1, 'Sticker': 2}
-MIN_SCORE = 0.7
+MIN_SCORE = 0.75
 
 
 
@@ -52,6 +52,8 @@ def show_10_images_with_bounding_boxes(model, dataset: StickerData, check_point_
     dataloader = dataset.test_dataloader()
 
 
+    lowest_scores = []
+
     # loop through the dataloader using tqdm while enumerating the index
     images_for_grid = []
     for i, (image, target) in tqdm(enumerate(dataloader), total=num_images):
@@ -66,8 +68,11 @@ def show_10_images_with_bounding_boxes(model, dataset: StickerData, check_point_
         preds = model(image)
 
         # invert the normalization
+        image_name =  target[0]['image_name']
+        image = cv.imread('data_stickers/test/' + image_name)
 
-        image = cv.imread('data_stickers/test/' + target[0]['image_name'])
+        if image_name == 'image_open48.jpg':
+            print('here')
 
         # conver bounding boxes to numpy
         boxes = preds[0]['boxes'].cpu().detach().numpy()
@@ -77,11 +82,29 @@ def show_10_images_with_bounding_boxes(model, dataset: StickerData, check_point_
         target_boxes = target[0]['boxes'].cpu().detach().numpy()
         target_labels = target[0]['labels'].cpu().detach().numpy()
 
-        # loop BACKWARDS through the scores. if a score is < 0.5 then remove the bounding box and label
+
+        # make two new lists for target boxes and scores that only keeps the items if the label is a sticker
+        boxes_temp = [boxes[i] for i in range(len(boxes)) if labels[i] == 2]
+        scores_temp = [scores[i] for i in range(len(scores)) if labels[i] == 2]
+
+        target_boxes_temp = [target_boxes[i] for i in range(len(target_boxes)) if target_labels[i] == 2]
+
+
+
+        if len(scores_temp) > len(target_boxes_temp):
+            highest_scores = scores_temp[:len(target_boxes_temp)]
+            min_score = np.min(highest_scores)
+            lowest_scores.append(min_score)
+        else:
+            lowest_scores.append(np.min(scores_temp))
+
+        # loop BACKWARDS through the scores. if a score is < MIN_SCORE then remove the bounding box and label
         for j in range(len(scores)-1, -1, -1):
             if scores[j] < MIN_SCORE:
                 boxes = np.delete(boxes, j, 0)
                 labels = np.delete(labels, j, 0)
+                scores = np.delete(scores, j, 0)
+
 
 
         labels = [key for value in labels for key, val in LABELS.items() if val == value]
@@ -89,21 +112,26 @@ def show_10_images_with_bounding_boxes(model, dataset: StickerData, check_point_
 
         # draw bounding boxes on image. target should be green and prediction should be red
         for box, label in zip(target_boxes, target_labels):
-            image = cv.rectangle(image, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 2)
-            image = cv.putText(image, str(label), (int(box[0]), int(box[1])), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 3, cv.LINE_AA)
-        for box, label in zip(boxes, labels): 
-            image = cv.rectangle(image, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (255, 0, 0), 2)
-            image = cv.putText(image, str(label), (int(box[0]), int(box[1])), cv.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0), 3, cv.LINE_AA) # (255,0,0) is blue
+            if label == 'Sticker':
+                image = cv.rectangle(image, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 2)
+                image = cv.putText(image, str(label), (int(box[0]), int(box[1])), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 3, cv.LINE_AA)
+        for box, label, score in zip(boxes, labels, scores):
+            if label == 'Sticker':
+                image = cv.rectangle(image, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (255, 0, 0), 2)
+                image = cv.putText(image, str(label + ' ' + str(score)[:5]), (int(box[0]), int(box[1])), cv.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0), 3, cv.LINE_AA) # (255,0,0) is blue
 
 
         images_for_grid.append(image)
 
-        cv.imwrite(save_path + '/test_image' + str(i) + '.jpg', image)
+        cv.imwrite(save_path + '/' + image_name, image)
         
 
         if i == num_images - 1:
             break
     
+
+    print('lowest scores: ', lowest_scores)
+
     row1 = [images_for_grid[i] for i in range(0, len(images_for_grid), 2)]
     row2 = [images_for_grid[i] for i in range(1, len(images_for_grid), 2)]
     
@@ -126,7 +154,6 @@ def show_10_images_with_bounding_boxes(model, dataset: StickerData, check_point_
     # cv.waitKey(0)
     # cv.destroyAllWindows()
     
-
     return images
 
 
@@ -135,7 +162,7 @@ def make_images_for_tensorboard(pred, target):
     # get a random number between 0 and the length of the target
     random_image_nr = random.randint(0, len(target) - 1)
 
-    image = cv.imread('data_stickers/valid/' + target[random_image_nr]['image_name'])
+    image = cv.imread('C:/Users/emilb/OneDrive/Skrivebord/Master-Thesis/The Master Code/data_stickers/valid/' + target[random_image_nr]['image_name'])
     image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
     image = torch.from_numpy(image)
     image = image.permute(2, 0, 1)

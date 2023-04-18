@@ -9,8 +9,8 @@ import copy
 from tqdm import tqdm
 
 
-IMAGES_PATH = 'annotated_top_open'
-ANNOTATIONS_PATH = 'annotations_top_open.json'
+IMAGES_PATH = 'test_data'
+ANNOTATIONS_PATH = 'annotations_test_data.json'
 
 # cv.namedWindow('mask', cv.WINDOW_NORMAL)
 # cv.namedWindow('img', cv.WINDOW_NORMAL)
@@ -40,5 +40,5 @@ for image in tqdm(images):
         cv.imwrite(os.path.join(IMAGES_PATH + '/masks', mask_name), mask)
         annotation["mask"] = mask_name
 
-with open('annotations_top_open.json', 'w') as f:
+with open('annotations_test_data.json', 'w') as f:
     json.dump(annotations, f, indent=4)
