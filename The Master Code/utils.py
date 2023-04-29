@@ -3,6 +3,8 @@ import pytorch_lightning as pl
 
 from torchvision import transforms
 from torchvision.utils import draw_bounding_boxes, make_grid
+import torchmetrics
+
 from dataset_def_pl import StickerData
 
 from tqdm import tqdm
@@ -14,7 +16,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 LABELS = {'Background': 0, 'Logo': 1, 'Sticker': 2}
-MIN_SCORE = 0.75
+MIN_SCORE = 0.1
 
 
 
@@ -41,6 +43,7 @@ def push_results_to_iphone(trainer, model, datamodule):
 
 
 def show_10_images_with_bounding_boxes(model, dataset: StickerData, check_point_path, num_images=2):
+    map_metric = torchmetrics.MAP()
 
     save_path = check_point_path[:check_point_path.rfind('\\')]
     model = model.load_from_checkpoint(check_point_path)
@@ -56,82 +59,87 @@ def show_10_images_with_bounding_boxes(model, dataset: StickerData, check_point_
 
     # loop through the dataloader using tqdm while enumerating the index
     images_for_grid = []
-    for i, (image, target) in tqdm(enumerate(dataloader), total=num_images):
-        
-        # move the image and target to cuda. first convert to list because the target is a list of tensors
-        image = list(image)
-        image[0] = image[0].cuda()
-        image = tuple(image)
-        target[0]['boxes'] = target[0]['boxes'].cuda()
-        target[0]['labels'] = target[0]['labels'].cuda()
-        target[0]['image_id'] = target[0]['image_id'].cuda()
-        preds = model(image)
+    with torch.no_grad():
+        for i, (image, target) in tqdm(enumerate(dataloader), total=num_images):
+            torch.cuda.empty_cache()
 
-        # invert the normalization
-        image_name =  target[0]['image_name']
-        image = cv.imread('data_stickers/test/' + image_name)
+            # move the image and target to cuda. first convert to list because the target is a list of tensors
+            image = list(image)
+            image[0] = image[0].cuda()
+            image = tuple(image)
+            target[0]['boxes'] = target[0]['boxes'].cuda()
+            target[0]['labels'] = target[0]['labels'].cuda()
+            target[0]['image_id'] = target[0]['image_id'].cuda()
+            preds = model(image)
 
-        if image_name == 'image_open48.jpg':
-            print('here')
+            map_metric.update(preds, target)
 
-        # conver bounding boxes to numpy
-        boxes = preds[0]['boxes'].cpu().detach().numpy()
-        labels = preds[0]['labels'].cpu().detach().numpy()
-        scores = preds[0]['scores'].cpu().detach().numpy()
-        # convert target boxes to numpy
-        target_boxes = target[0]['boxes'].cpu().detach().numpy()
-        target_labels = target[0]['labels'].cpu().detach().numpy()
+            # invert the normalization
+            image_name =  target[0]['image_name']
+            image = cv.imread('data_stickers/test/' + image_name)
 
+            if image_name == 'image_open48.jpg':
+                print('here')
 
-        # make two new lists for target boxes and scores that only keeps the items if the label is a sticker
-        boxes_temp = [boxes[i] for i in range(len(boxes)) if labels[i] == 2]
-        scores_temp = [scores[i] for i in range(len(scores)) if labels[i] == 2]
-
-        target_boxes_temp = [target_boxes[i] for i in range(len(target_boxes)) if target_labels[i] == 2]
+            # conver bounding boxes to numpy
+            boxes = preds[0]['boxes'].cpu().detach().numpy()
+            labels = preds[0]['labels'].cpu().detach().numpy()
+            scores = preds[0]['scores'].cpu().detach().numpy()
+            # convert target boxes to numpy
+            target_boxes = target[0]['boxes'].cpu().detach().numpy()
+            target_labels = target[0]['labels'].cpu().detach().numpy()
 
 
+            # make two new lists for target boxes and scores that only keeps the items if the label is a sticker
+            boxes_temp = [boxes[i] for i in range(len(boxes)) if labels[i] == 2]
+            scores_temp = [scores[i] for i in range(len(scores)) if labels[i] == 2]
 
-        if len(scores_temp) > len(target_boxes_temp):
-            highest_scores = scores_temp[:len(target_boxes_temp)]
-            min_score = np.min(highest_scores)
-            lowest_scores.append(min_score)
-        else:
-            lowest_scores.append(np.min(scores_temp))
-
-        # loop BACKWARDS through the scores. if a score is < MIN_SCORE then remove the bounding box and label
-        for j in range(len(scores)-1, -1, -1):
-            if scores[j] < MIN_SCORE:
-                boxes = np.delete(boxes, j, 0)
-                labels = np.delete(labels, j, 0)
-                scores = np.delete(scores, j, 0)
+            target_boxes_temp = [target_boxes[i] for i in range(len(target_boxes)) if target_labels[i] == 2]
 
 
 
-        labels = [key for value in labels for key, val in LABELS.items() if val == value]
-        target_labels = [key for value in target_labels for key, val in LABELS.items() if val == value]
+            if len(scores_temp) > len(target_boxes_temp):
+                highest_scores = scores_temp[:len(target_boxes_temp)]
+                min_score = np.min(highest_scores)
+                lowest_scores.append(min_score)
+            else:
+                lowest_scores.append(np.min(scores_temp))
 
-        # draw bounding boxes on image. target should be green and prediction should be red
-        for box, label in zip(target_boxes, target_labels):
-            if label == 'Sticker':
-                image = cv.rectangle(image, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 2)
-                image = cv.putText(image, str(label), (int(box[0]), int(box[1])), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 3, cv.LINE_AA)
-        for box, label, score in zip(boxes, labels, scores):
-            if label == 'Sticker':
-                image = cv.rectangle(image, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (255, 0, 0), 2)
-                image = cv.putText(image, str(label + ' ' + str(score)[:5]), (int(box[0]), int(box[1])), cv.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0), 3, cv.LINE_AA) # (255,0,0) is blue
+            # loop BACKWARDS through the scores. if a score is < MIN_SCORE then remove the bounding box and label
+            for j in range(len(scores)-1, -1, -1):
+                if scores[j] < MIN_SCORE:
+                    boxes = np.delete(boxes, j, 0)
+                    labels = np.delete(labels, j, 0)
+                    scores = np.delete(scores, j, 0)
 
 
-        images_for_grid.append(image)
 
-        cv.imwrite(save_path + '/' + image_name, image)
-        
+            labels = [key for value in labels for key, val in LABELS.items() if val == value]
+            target_labels = [key for value in target_labels for key, val in LABELS.items() if val == value]
 
-        if i == num_images - 1:
-            break
+            # draw bounding boxes on image. target should be green and prediction should be red
+            for box, label in zip(target_boxes, target_labels):
+                if label == 'Sticker':
+                    image = cv.rectangle(image, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 2)
+                    image = cv.putText(image, str(label), (int(box[0]), int(box[1])), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 3, cv.LINE_AA)
+            for box, label, score in zip(boxes, labels, scores):
+                if label == 'Sticker':
+                    image = cv.rectangle(image, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (255, 0, 0), 2)
+                    image = cv.putText(image, str(label + ' ' + str(score)[:5]), (int(box[0]), int(box[1])), cv.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0), 3, cv.LINE_AA) # (255,0,0) is blue
+
+
+            images_for_grid.append(image)
+
+            cv.imwrite(save_path + '/' + image_name, image)
+    
+
+            if i == num_images - 1:
+                break
     
 
     print('lowest scores: ', lowest_scores)
-
+    map_results = map_metric.compute()
+    print(f'mAP: {map_results["map"]}, mAP_50: {map_results["map_50"]}, mAP_75: {map_results["map_75"]}')
     row1 = [images_for_grid[i] for i in range(0, len(images_for_grid), 2)]
     row2 = [images_for_grid[i] for i in range(1, len(images_for_grid), 2)]
     

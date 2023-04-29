@@ -31,9 +31,9 @@ LOGGER_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/Master-Thesis/The Master Code/
 
 # MODEL_NAME = 'fasterrcnn_resnet50_fpn_v2'
 
-# MODEL_NAME = 'ssd300_vgg16'
+MODEL_NAME = 'ssd300_vgg16'
 
-MODEL_NAME = 'ssdlite320_mobilenet_v3_large'
+# MODEL_NAME = 'ssdlite320_mobilenet_v3_large'
 
 # MODEL_NAME = 'retinanet_resnet50_fpn'
 
@@ -42,7 +42,7 @@ MODEL_NAME = 'ssdlite320_mobilenet_v3_large'
 
 NUM_WORKERS = 2
 NUM_EPOCHS = 120
-NUM_SAMPLES = 30
+NUM_SAMPLES = 50
 
 
 
@@ -65,7 +65,8 @@ def train_sticker_tune(config, num_epochs=10, num_gpus=0, tensor_board_name='ray
         check_val_every_n_epoch=1,
         progress_bar_refresh_rate=0,
         # val_check_interval=0.1, 
-        limit_train_batches=0.25,
+        limit_train_batches=0.50,
+        # limit_val_batches=0.01,
         accumulate_grad_batches=config["batch_size"] * 2, #this will give the effective batch size
 
         log_every_n_steps=1, 
@@ -104,7 +105,7 @@ def tune_sticker_asha(num_samples=NUM_SAMPLES, num_epochs=NUM_EPOCHS, gpus_per_t
 
     scheduler = ASHAScheduler(
                                 max_t=5000,
-                                grace_period=4,
+                                grace_period=5,
                                 reduction_factor=2,
                                 )
     
@@ -151,7 +152,7 @@ def tune_sticker_asha(num_samples=NUM_SAMPLES, num_epochs=NUM_EPOCHS, gpus_per_t
                         num_samples=num_samples,
                         progress_reporter=reporter,
                         scheduler=scheduler,
-                        name="tune_sticker")
+                        name=f"tune_{MODEL_NAME}_asha")
     
     print("The final hyperparameters that performed best: ", analysis.best_config)
 

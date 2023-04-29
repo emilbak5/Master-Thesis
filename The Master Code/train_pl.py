@@ -16,18 +16,18 @@ warnings.filterwarnings("ignore", ".*Consider increasing the value of the `num_w
 
 
 NUM_WORKERS = 2
-BATCH_SIZE = 3
-
 NUM_CLASSES = 3 # logo + sticker + background
     
-WEIGHT_DECAY = 0.0005
-MOMENTUM = 0.9
+
 
 # MODEL_NAME = 'fasterrcnn_resnet50_fpn'
 # LEARNING_RATE = 0.005 # used for fasterrcnn_resnet50_fpn
 
 MODEL_NAME = 'fasterrcnn_resnet50_fpn_v2'
 LEARNING_RATE = 0.005 # used for fasterrcnn_resnet50_fpn
+WEIGHT_DECAY = 0.0005
+MOMENTUM = 0.9
+BATCH_SIZE = 3
 
 # MODEL_NAME = 'ssd300_vgg16'
 # LEARNING_RATE = 0.0004 # better for ssd300_vgg16
@@ -48,6 +48,7 @@ CONFIG = {
     "lr": LEARNING_RATE,
     "momentum": MOMENTUM,
     "weight_decay": WEIGHT_DECAY,
+    "batch_size": BATCH_SIZE
     }
 
 if __name__ == '__main__':
@@ -80,7 +81,7 @@ if __name__ == '__main__':
 
     data_module = StickerData(train_folder='data_stickers/train', valid_folder='data_stickers/valid', test_folder='data_stickers/test', batch_size=BATCH_SIZE, num_workers=NUM_WORKERS)
 
-    model = StickerDetector(num_classes=NUM_CLASSES, config=CONFIG, batch_size=BATCH_SIZE, model_name=MODEL_NAME)
+    model = StickerDetector(num_classes=NUM_CLASSES, config=CONFIG, model_name=MODEL_NAME)
     
     # trainer.tune(model, datamodule=data_module)
 

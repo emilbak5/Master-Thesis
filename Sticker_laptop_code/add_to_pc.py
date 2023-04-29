@@ -14,6 +14,7 @@ COMBINED_PATH = 'combined'
 COMBINED_MASKS_PATH = 'combined/masks'
 STICKER_PATH_WHITE = 'stickers_cut_white'
 STICKER_PATH_BLACK = 'stickers_cut_black'
+STICKER_PATH_BLACK = 'stickers_emoji'
 # STICKER_PATH_BLACK = 'C:/Users/emilb/Downloads/Stickers/Stickers'
 
 WHITE = 0
@@ -28,16 +29,22 @@ def trackbar_callback(val):
 
 def get_random_sticker(stickers_white, stickers_black):
     color = random.randint(WHITE, BLACK)
+    color = BLACK
     sticker = None
     while True:
         if color == WHITE:
             sticker = random.choice(stickers_white)
             sticker = cv.imread(os.path.join(STICKER_PATH_WHITE, sticker))
             cv.setTrackbarPos("sticker_trackbar", "sticker", 252)
+
         else:
+            # sticker = random.choice(stickers_black)
+            # sticker = cv.imread(os.path.join(STICKER_PATH_BLACK, sticker))
+            # cv.setTrackbarPos("sticker_trackbar", "sticker", 20)'
             sticker = random.choice(stickers_black)
             sticker = cv.imread(os.path.join(STICKER_PATH_BLACK, sticker))
-            cv.setTrackbarPos("sticker_trackbar", "sticker", 20)
+            sticker[np.all(sticker == (76,112,71), axis=-1)] = (0,0,0)
+            cv.setTrackbarPos("sticker_trackbar", "sticker", 1)
         
         if sticker.shape[0] < 1000 and sticker.shape[1] < 1000:
             break
@@ -231,6 +238,7 @@ def add_to_pc():
             if color == WHITE:
                 sticker = ndimage.rotate(sticker, rotation, cval=255)
             else:
+                # sticker = ndimage.rotate(sticker, rotation, cval=0)
                 sticker = ndimage.rotate(sticker, rotation, cval=0)
 
             changed = True
@@ -291,6 +299,7 @@ def add_to_pc():
                             if color == WHITE:
                                 sticker = ndimage.rotate(sticker, rotation, cval=255)
                             else:
+                                # sticker = ndimage.rotate(sticker, rotation, cval=0)
                                 sticker = ndimage.rotate(sticker, rotation, cval=0)
                             changed = True
                             break

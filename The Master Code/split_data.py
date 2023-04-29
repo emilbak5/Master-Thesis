@@ -6,7 +6,7 @@ import os
 from tqdm import tqdm
 
 
-def split_data(data_raw_path='data_raw_stickers/', val_size=0.2, test_size=0.1, random_seed=42):
+def split_data(data_raw_path='data_raw_stickers/', val_size=0.2, test_size=0.0, random_seed=42):
 
     # get a list of all the images in the dataset
     images_list = glob.glob(data_raw_path + "*.jpg")

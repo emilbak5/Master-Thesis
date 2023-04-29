@@ -8,12 +8,13 @@ import numpy as np
 import os
 import json
 from tqdm import tqdm
+import time
 
 IMAGES_FOLDER_PATH = 'data_stickers/train'
 IMAGES_MASKS_FOLDER_PATH = 'data_stickers/train/masks'
 ANNOTATIONS_PATH = 'data_stickers/train/annotations.coco.json'
 
-DATASET_MULTIPLICATION_SIZE = 3
+DATASET_MULTIPLICATION_SIZE = 1
 
 
 def convert_np_arrays_to_lists(data):
@@ -83,7 +84,7 @@ def augment_images():
                                     A.HorizontalFlip(p=1),
                                     A.GaussNoise(p=1),
                                     A.RandomBrightnessContrast(p=1, brightness_limit=[-0.1, 0.2]),
-                                    A.ColorJitter(p=1, brightness=0, contrast=0),
+                                    A.ColorJitter(p=1, brightness=0, contrast=0, saturation=0.4, hue=0.4),
                                 ], n=number_of_augments),
                                 ],
                                 bbox_params=A.BboxParams(format='coco', min_visibility=0.1),
@@ -106,11 +107,12 @@ def augment_images():
             for bbox, bbox_category_id in zip(bboxes, bbox_category_ids):
                 bbox.append(str(bbox_category_id))
 
-            
-
-    
-
+        
+            # start time
+            start = time.time()
             transformed = transform(image=image, masks=masks, bboxes=bboxes)
+            end = time.time()
+            # print(f"Time taken to transform image: {end - start}")
             transformed_image = transformed['image']
             transformed_bboxes_ = transformed['bboxes']
             transformed_bboxes_ = [list(bbox[:-1]) for bbox in transformed_bboxes_]
@@ -188,17 +190,22 @@ def augment_images():
                     "area": transformed_bbox[2] * transformed_bbox[3]
                 }
                 annotations['annotations'].append(new_anno)
+                # start time
+                start = time.time()
                 cv2.imwrite('data_stickers/augmented/masks/' + str(10000 + annotation_count) + '.png', mask)
                 cv2.imwrite('data_stickers/train/masks/' + str(10000 + annotation_count) + '.png', mask)
+                end = time.time()
+                #print(f"Time taken to save mask: {end - start}")
                 annotation_count += 1
-
 
 
 
             cv2.imwrite('data_stickers/train/' + 'augmented_image' + str(10000 + image_count) + '.jpg', transformed_image)
             if not os.path.exists('data_stickers/augmented/'):
                 os.makedirs('data_stickers/augmented/')
+            start = time.time()
             cv2.imwrite('data_stickers/augmented/' + 'augmented_image' + str(10000 + image_count) + '.jpg', transformed_image)
+            end = time.time()
             image_count += 1
 
 
