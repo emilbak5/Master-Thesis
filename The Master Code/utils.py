@@ -197,6 +197,7 @@ def make_images_for_tensorboard(pred, target):
         boxes_pred = np.array(boxes_pred)
 
     # convert to tensor from numpy
+
     boxes_pred = torch.from_numpy(boxes_pred)
     
 

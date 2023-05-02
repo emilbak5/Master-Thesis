@@ -27,11 +27,11 @@ DATA_TEST_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/Master-Thesis/The Master Co
 LOGGER_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/Master-Thesis/The Master Code/lightning_logs'
 
 
-# MODEL_NAME = 'fasterrcnn_resnet50_fpn'
+MODEL_NAME = 'fasterrcnn_resnet50_fpn'
 
 # MODEL_NAME = 'fasterrcnn_resnet50_fpn_v2'
 
-MODEL_NAME = 'ssd300_vgg16'
+# MODEL_NAME = 'ssd300_vgg16'
 
 # MODEL_NAME = 'ssdlite320_mobilenet_v3_large'
 
@@ -40,7 +40,7 @@ MODEL_NAME = 'ssd300_vgg16'
 # MODEL_NAME = 'retinanet_resnet50_fpn_v2'
 
 
-NUM_WORKERS = 2
+NUM_WORKERS = 1
 NUM_EPOCHS = 120
 NUM_SAMPLES = 50
 
@@ -53,7 +53,7 @@ def train_sticker_tune(config, num_epochs=10, num_gpus=0, tensor_board_name='ray
 
     logger = TensorBoardLogger(LOGGER_PATH, name=tensor_board_name, default_hp_metric=True)
 
-    early_stopping_callback = EarlyStopping(monitor='Validation/mAP', min_delta=0.01, patience=3, verbose=True, mode='max', check_on_train_epoch_end=False)
+    early_stopping_callback = EarlyStopping(monitor='Validation/mAP', min_delta=0.001, patience=5, verbose=True, mode='max', check_on_train_epoch_end=False)
     tune_callback = TuneReportCallback({'Validation/mAP': 'Validation/mAP' }, on='validation_end')
     SWA_callback = StochasticWeightAveraging(swa_lrs=1e-2)
 
@@ -65,7 +65,7 @@ def train_sticker_tune(config, num_epochs=10, num_gpus=0, tensor_board_name='ray
         check_val_every_n_epoch=1,
         progress_bar_refresh_rate=0,
         # val_check_interval=0.1, 
-        limit_train_batches=0.50,
+        # limit_train_batches=0.50,
         # limit_val_batches=0.01,
         accumulate_grad_batches=config["batch_size"] * 2, #this will give the effective batch size
 
@@ -100,7 +100,7 @@ def tune_sticker_asha(num_samples=NUM_SAMPLES, num_epochs=NUM_EPOCHS, gpus_per_t
     else:
         tune_folder_number = 1
     
-    tensor_board_name = 'ray_tune_' + str(tune_folder_number) + '/' + MODEL_NAME
+    tensor_board_name = 'ray_tune_no_steplr_' + str(tune_folder_number) + '/' + MODEL_NAME
 
 
     scheduler = ASHAScheduler(
@@ -117,9 +117,9 @@ def tune_sticker_asha(num_samples=NUM_SAMPLES, num_epochs=NUM_EPOCHS, gpus_per_t
     #                                         "weight_decay": tune.loguniform(1e-5, 1e-3),
     #                             })
     config = {
-        "lr": tune.loguniform(1e-4, 1e-2),
-        "momentum": tune.uniform(0.7, 1.0),
-        "weight_decay": tune.loguniform(1e-5, 1e-2),
+        "lr": tune.loguniform(1e-5, 1e-2),
+        "momentum": tune.uniform(0.8, 1.0),
+        "weight_decay": tune.loguniform(1e-6, 1e-3),
         "batch_size": tune.choice([1, 2, 4, 8, 16]), # all these will be multiplied with 2, but is necessary for the for the dataloader in SSD300
         }
     

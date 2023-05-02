@@ -60,16 +60,20 @@ class StickerDetector(pl.LightningModule):
             self.model.head.classification_head = SSDClassificationHead(out_channgels, num_anchors, num_classes)
 
         elif self.model_name == 'retinanet_resnet50_fpn':
+            kwargs = {'score_thresh': 0.0005}
             self.model = torchvision.models.detection.retinanet_resnet50_fpn(weights='DEFAULT', trainable_backbone_layers=5)
             num_anchors = self.model.head.classification_head.num_anchors
             out_channgels = self.model.backbone.out_channels
             self.model.head.classification_head = RetinaNetClassificationHead(in_channels=out_channgels, num_anchors=num_anchors, num_classes=num_classes)
+            self.model.score_thresh = 0.0005
 
         elif self.model_name == 'retinanet_resnet50_fpn_v2':
             self.model = torchvision.models.detection.retinanet_resnet50_fpn_v2(weights='DEFAULT', trainable_backbone_layers=5)
             num_anchors = self.model.head.classification_head.num_anchors
             out_channgels = self.model.backbone.out_channels
             self.model.head.classification_head = RetinaNetClassificationHead(in_channels=out_channgels, num_anchors=num_anchors, num_classes=num_classes)
+            self.model.score_thresh = 0.0005
+
 
             # in_features = self.model.retinanet_head.cls_score.in_features
             # self.model.retinanet_head = FastRCNNPredictor(in_features, num_classes)
@@ -201,20 +205,20 @@ class StickerDetector(pl.LightningModule):
         parameters = [p for p in self.model.parameters() if p.requires_grad]
         optimizer = torch.optim.SGD(parameters, lr=self.hparams["learning_rate"], momentum=self.hparams["momentum"], weight_decay=self.hparams["weight_decay"])
 
-        if self.model_name == "fasterrcnn_resnet50_fpn" or self.model_name == "fasterrcnn_resnet50_fpn_v2" or \
-                                                           self.model_name == "retinanet_resnet50_fpn" or \
-                                                           self.model_name == "retinanet_resnet50_fpn_v2":
+        # if self.model_name == "fasterrcnn_resnet50_fpn" or self.model_name == "fasterrcnn_resnet50_fpn_v2" or \
+        #                                                    self.model_name == "retinanet_resnet50_fpn" or \
+        #                                                    self.model_name == "retinanet_resnet50_fpn_v2":
             
-            lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[16, 22], gamma=0.1)
-            return [optimizer], [lr_scheduler]
+        #     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[16, 22], gamma=0.1)
+        #     return [optimizer], [lr_scheduler]
         
-        elif self.model_name == self.model_name == "ssdlite320_mobilenet_v3_large":
-            lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, T_max=120)
-            return [optimizer], [lr_scheduler]
+        # elif self.model_name == self.model_name == "ssdlite320_mobilenet_v3_large":
+        #     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, T_max=120)
+        #     return [optimizer], [lr_scheduler]
         
-        elif self.model_name == "ssd300_vgg16":
-            lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer=optimizer, milestones=[80, 110], gamma=0.1)
-            return [optimizer], [lr_scheduler]
+        # elif self.model_name == "ssd300_vgg16":
+        #     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer=optimizer, milestones=[80, 110], gamma=0.1)
+        #     return [optimizer], [lr_scheduler]
 
         return optimizer
     
