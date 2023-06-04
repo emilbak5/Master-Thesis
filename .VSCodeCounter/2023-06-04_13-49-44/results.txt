@@ -1,0 +1,138 @@
+Date : 2023-06-04 13:49:44
+Directory : c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis
+Total : 73 files,  6839497 codes, 542 comments, 1003 blanks, all 6841042 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| JSON             |         33 |  6,837,405 |          0 |          1 |  6,837,406 |
+| Python           |         25 |      1,757 |        542 |        948 |      3,247 |
+| CSV              |          5 |        176 |          0 |          1 |        177 |
+| Markdown         |          9 |        151 |          0 |         52 |        203 |
+| pip requirements |          1 |          8 |          0 |          1 |          9 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                    | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                       |         73 |  6,839,497 |        542 |      1,003 |  6,841,042 |
+| . (Files)                                                                                                               |          1 |          1 |          0 |          0 |          1 |
+| Sticker_laptop_code                                                                                                     |         21 |    534,226 |        141 |        220 |    534,587 |
+| Sticker_laptop_code (Files)                                                                                             |         13 |    524,736 |        141 |        194 |    525,071 |
+| Sticker_laptop_code\.VSCodeCounter                                                                                      |          7 |         76 |          0 |         26 |        102 |
+| Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37                                                                  |          7 |         76 |          0 |         26 |        102 |
+| Sticker_laptop_code\test_data                                                                                           |          1 |      9,414 |          0 |          0 |      9,414 |
+| The Master Code                                                                                                         |         51 |  6,305,270 |        401 |        783 |  6,306,454 |
+| The Master Code (Files)                                                                                                 |         19 |    333,506 |        401 |        755 |    334,662 |
+| The Master Code\.VSCodeCounter                                                                                          |          7 |        123 |          0 |         26 |        149 |
+| The Master Code\.VSCodeCounter\2023-03-02_12-01-19                                                                      |          7 |        123 |          0 |         26 |        149 |
+| The Master Code\augmentation_test                                                                                       |          5 |    999,713 |          0 |          1 |    999,714 |
+| The Master Code\augmentation_test (Files)                                                                               |          1 |        129 |          0 |          1 |        130 |
+| The Master Code\augmentation_test\test                                                                                  |          1 |      9,414 |          0 |          0 |      9,414 |
+| The Master Code\augmentation_test\train                                                                                 |          1 |    449,632 |          0 |          0 |    449,632 |
+| The Master Code\augmentation_test\train_og                                                                              |          1 |    449,632 |          0 |          0 |    449,632 |
+| The Master Code\augmentation_test\valid                                                                                 |          1 |     90,906 |          0 |          0 |     90,906 |
+| The Master Code\data                                                                                                    |          3 |     31,362 |          0 |          0 |     31,362 |
+| The Master Code\data\test                                                                                               |          1 |     28,574 |          0 |          0 |     28,574 |
+| The Master Code\data\train                                                                                              |          1 |      1,496 |          0 |          0 |      1,496 |
+| The Master Code\data\valid                                                                                              |          1 |      1,292 |          0 |          0 |      1,292 |
+| The Master Code\data_raw                                                                                                |          4 |     31,224 |          0 |          0 |     31,224 |
+| The Master Code\data_raw_stickers                                                                                       |          1 |    492,937 |          0 |          0 |    492,937 |
+| The Master Code\data_stickers                                                                                           |          4 |  1,189,956 |          0 |          0 |  1,189,956 |
+| The Master Code\data_stickers copy                                                                                      |          3 |    502,359 |          0 |          1 |    502,360 |
+| The Master Code\data_stickers copy\test                                                                                 |          1 |      9,414 |          0 |          0 |      9,414 |
+| The Master Code\data_stickers copy\train                                                                                |          1 |    402,039 |          0 |          1 |    402,040 |
+| The Master Code\data_stickers copy\valid                                                                                |          1 |     90,906 |          0 |          0 |     90,906 |
+| The Master Code\data_stickers\augmented                                                                                 |          1 |    544,818 |          0 |          0 |    544,818 |
+| The Master Code\data_stickers\test                                                                                      |          1 |      9,414 |          0 |          0 |      9,414 |
+| The Master Code\data_stickers\train                                                                                     |          1 |    544,818 |          0 |          0 |    544,818 |
+| The Master Code\data_stickers\valid                                                                                     |          1 |     90,906 |          0 |          0 |     90,906 |
+| The Master Code\final_test                                                                                              |          5 |  2,724,090 |          0 |          0 |  2,724,090 |
+| The Master Code\final_test\images100                                                                                    |          1 |    544,818 |          0 |          0 |    544,818 |
+| The Master Code\final_test\images200                                                                                    |          1 |    544,818 |          0 |          0 |    544,818 |
+| The Master Code\final_test\images300                                                                                    |          1 |    544,818 |          0 |          0 |    544,818 |
+| The Master Code\final_test\images400                                                                                    |          1 |    544,818 |          0 |          0 |    544,818 |
+| The Master Code\final_test\images500                                                                                    |          1 |    544,818 |          0 |          0 |    544,818 |
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                                                                                | language         | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\README.md                                                              | Markdown         |          1 |          0 |          0 |          1 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\details.md      | Markdown         |         22 |          0 |          6 |         28 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\diff-details.md | Markdown         |          9 |          0 |          6 |         15 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\diff.csv        | CSV              |          2 |          0 |          0 |          2 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\diff.md         | Markdown         |         12 |          0 |          7 |         19 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\results.csv     | CSV              |         15 |          0 |          0 |         15 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\results.json    | JSON             |          1 |          0 |          0 |          1 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\results.md      | Markdown         |         15 |          0 |          7 |         22 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\add_masks_before_adding_stickers.py                | Python           |         30 |          3 |         11 |         44 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\add_to_pc.py                                       | Python           |        186 |         64 |         95 |        345 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations.json                                   | JSON             |    492,937 |          0 |          0 |    492,937 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations_test.json                              | JSON             |      3,694 |          0 |          0 |      3,694 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations_test_data.json                         | JSON             |      9,414 |          0 |          0 |      9,414 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations_top_open.json                          | JSON             |      9,414 |          0 |          0 |      9,414 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\check_bboxes.py                                    | Python           |         23 |          7 |         15 |         45 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\clear_folders.py                                   | Python           |         15 |          0 |          6 |         21 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\convert_to_jpg.py                                  | Python           |         17 |          1 |          7 |         25 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\cut_stickers.py                                    | Python           |         57 |         44 |         17 |        118 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\fix_naming_and_category_in_ls_annotations.py       | Python           |         38 |          1 |         20 |         59 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\grab_images.py                                     | Python           |         89 |         21 |         23 |        133 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\result.json                                        | JSON             |      8,822 |          0 |          0 |      8,822 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\test_data\result_test_data.json                    | JSON             |      9,414 |          0 |          0 |      9,414 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\details.md          | Markdown         |         35 |          0 |          6 |         41 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\diff-details.md     | Markdown         |          9 |          0 |          6 |         15 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\diff.csv            | CSV              |          2 |          0 |          0 |          2 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\diff.md             | Markdown         |         12 |          0 |          7 |         19 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\results.csv         | CSV              |         28 |          0 |          0 |         28 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\results.json        | JSON             |          1 |          0 |          0 |          1 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\results.md          | Markdown         |         36 |          0 |          7 |         43 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\annotations.json                                       | JSON             |    332,196 |          0 |          0 |    332,196 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augment_images_for_repport.py                          | Python           |         92 |         16 |         44 |        152 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augment_images_mask.py                                 | Python           |        130 |         48 |         62 |        240 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augmentation_test\mutual_info.csv                      | CSV              |        129 |          0 |          1 |        130 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augmentation_test\test\annotations.coco.json           | JSON             |      9,414 |          0 |          0 |      9,414 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augmentation_test\train\annotations.coco.json          | JSON             |    449,632 |          0 |          0 |    449,632 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augmentation_test\train_og\annotations.coco.json       | JSON             |    449,632 |          0 |          0 |    449,632 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augmentation_test\valid\annotations.coco.json          | JSON             |     90,906 |          0 |          0 |     90,906 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augmentations_test.py                                  | Python           |        131 |         18 |         62 |        211 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\check_bboxes.py                                        | Python           |         21 |         10 |         16 |         47 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\combinations.py                                        | Python           |         22 |          6 |         12 |         40 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data\test\annotations.coco.json                        | JSON             |     28,574 |          0 |          0 |     28,574 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data\train\annotations.coco.json                       | JSON             |      1,496 |          0 |          0 |      1,496 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data\valid\annotations.coco.json                       | JSON             |      1,292 |          0 |          0 |      1,292 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw\_annotations.coco.json                        | JSON             |     31,221 |          0 |          0 |     31,221 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw\test_annotations.coco.json                    | JSON             |          1 |          0 |          0 |          1 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw\train_annotations.coco.json                   | JSON             |          1 |          0 |          0 |          1 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw\val_annotations.coco.json                     | JSON             |          1 |          0 |          0 |          1 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw_stickers\annotations.json                     | JSON             |    492,937 |          0 |          0 |    492,937 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers copy\test\annotations.coco.json          | JSON             |      9,414 |          0 |          0 |      9,414 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers copy\train\annotations.coco.json         | JSON             |    402,039 |          0 |          1 |    402,040 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers copy\valid\annotations.coco.json         | JSON             |     90,906 |          0 |          0 |     90,906 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\augmented\annotations.coco.json          | JSON             |    544,818 |          0 |          0 |    544,818 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\test\annotations.coco.json               | JSON             |      9,414 |          0 |          0 |      9,414 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\train\annotations.coco.json              | JSON             |    544,818 |          0 |          0 |    544,818 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\valid\annotations.coco.json              | JSON             |     90,906 |          0 |          0 |     90,906 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\dataset_def_pl.py                                      | Python           |         88 |          5 |         52 |        145 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\final_test.py                                          | Python           |         55 |         32 |         33 |        120 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\final_test\images100\annotations.coco.json             | JSON             |    544,818 |          0 |          0 |    544,818 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\final_test\images200\annotations.coco.json             | JSON             |    544,818 |          0 |          0 |    544,818 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\final_test\images300\annotations.coco.json             | JSON             |    544,818 |          0 |          0 |    544,818 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\final_test\images400\annotations.coco.json             | JSON             |    544,818 |          0 |          0 |    544,818 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\final_test\images500\annotations.coco.json             | JSON             |    544,818 |          0 |          0 |    544,818 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\hp_raytuning.py                                        | Python           |         92 |         23 |         47 |        162 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\make_matplotlib_graphs.py                              | Python           |        150 |         55 |         72 |        277 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\make_split_for_final_test.py                           | Python           |         16 |          5 |         14 |         35 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\mean_image.py                                          | Python           |         51 |          8 |         22 |         81 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\model_def_pl.py                                        | Python           |        153 |         34 |        109 |        296 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\requirements.txt                                       | pip requirements |          8 |          0 |          1 |          9 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\show_examples.py                                       | Python           |         25 |          7 |         27 |         59 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\split_data.py                                          | Python           |         64 |         11 |         32 |        107 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\test_inference_time.py                                 | Python           |         55 |          6 |         32 |         93 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\train_pl.py                                            | Python           |         49 |         33 |         31 |        113 |
+| c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\utils.py                                               | Python           |        108 |         84 |         87 |        279 |
+| Total                                                                                                                   |                  |  6,839,497 |        542 |      1,003 |  6,841,042 |
++-------------------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+

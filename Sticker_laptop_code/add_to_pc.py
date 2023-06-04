@@ -14,7 +14,7 @@ COMBINED_PATH = 'combined'
 COMBINED_MASKS_PATH = 'combined/masks'
 STICKER_PATH_WHITE = 'stickers_cut_white'
 STICKER_PATH_BLACK = 'stickers_cut_black'
-STICKER_PATH_BLACK = 'stickers_emoji'
+# STICKER_PATH_BLACK = 'stickers_emoji'
 # STICKER_PATH_BLACK = 'C:/Users/emilb/Downloads/Stickers/Stickers'
 
 WHITE = 0
@@ -35,16 +35,16 @@ def get_random_sticker(stickers_white, stickers_black):
         if color == WHITE:
             sticker = random.choice(stickers_white)
             sticker = cv.imread(os.path.join(STICKER_PATH_WHITE, sticker))
-            cv.setTrackbarPos("sticker_trackbar", "sticker", 252)
+            cv.setTrackbarPos("sticker_trackbar", "Sticker", 252)
 
         else:
             # sticker = random.choice(stickers_black)
             # sticker = cv.imread(os.path.join(STICKER_PATH_BLACK, sticker))
-            # cv.setTrackbarPos("sticker_trackbar", "sticker", 20)'
+            # cv.setTrackbarPos("sticker_trackbar", "Sticker", 20)'
             sticker = random.choice(stickers_black)
             sticker = cv.imread(os.path.join(STICKER_PATH_BLACK, sticker))
             sticker[np.all(sticker == (76,112,71), axis=-1)] = (0,0,0)
-            cv.setTrackbarPos("sticker_trackbar", "sticker", 1)
+            cv.setTrackbarPos("sticker_trackbar", "Sticker", 1)
         
         if sticker.shape[0] < 1000 and sticker.shape[1] < 1000:
             break
@@ -53,7 +53,7 @@ def get_random_sticker(stickers_white, stickers_black):
     
 def get_mask(sticker, color):
 
-    thresh = cv.getTrackbarPos("sticker_trackbar", "sticker")
+    thresh = cv.getTrackbarPos("sticker_trackbar", "Sticker")
     # convert image to binary
     gray = cv.cvtColor(sticker, cv.COLOR_BGR2GRAY)
     if color == WHITE:
@@ -96,7 +96,7 @@ def mouse_callback(event, x, y, flags, param):
         # resize sticker the same way as mask. remember there is a 3rd dimension
         sticker = sticker[y_bb:y_bb + h, x_bb:x_bb + w]
 
-        cv.imshow("sticker", sticker)
+        cv.imshow("Sticker", sticker)
         # cv.imshow("mask", mask)
 
         polygons = []
@@ -152,12 +152,12 @@ def mouse_callback(event, x, y, flags, param):
 
 # make 3 windows
 cv.namedWindow("laptop", cv.WINDOW_NORMAL)
-cv.namedWindow("sticker", cv.WINDOW_NORMAL)
-cv.resizeWindow("sticker", 600, 300)
-cv.namedWindow("brown_background", cv.WINDOW_NORMAL)
+cv.namedWindow("Sticker", cv.WINDOW_NORMAL)
+cv.resizeWindow("Sticker", 600, 300)
+cv.namedWindow("Extracted Sticker", cv.WINDOW_NORMAL)
 
-cv.createTrackbar("sticker_trackbar", "sticker", 0, 254, trackbar_callback)
-cv.setTrackbarMin('sticker_trackbar', 'sticker', 1)
+cv.createTrackbar("sticker_trackbar", "Sticker", 0, 254, trackbar_callback)
+cv.setTrackbarMin('sticker_trackbar', "Sticker", 1)
 
 
 
@@ -181,7 +181,7 @@ def add_to_pc():
     
 
 
-    annotations = {'categories': [{"id": 1, 'name': 'sticker', 'supercategory': 'none'}, {"id": 2, 'name': 'logo', 'supercategory': 'none'}],
+    annotations = {'categories': [{"id": 1, 'name': "Sticker", 'supercategory': 'none'}, {"id": 2, 'name': 'logo', 'supercategory': 'none'}],
         'images': [],
         'annotations': []}
 
@@ -242,15 +242,15 @@ def add_to_pc():
                 sticker = ndimage.rotate(sticker, rotation, cval=0)
 
             changed = True
-            prev_track_val = cv.getTrackbarPos("sticker_trackbar", "sticker")
+            prev_track_val = cv.getTrackbarPos("sticker_trackbar", "Sticker")
             while(True):
                 # make a brown background
                 
 
 
-                # cv.resizeWindow("sticker", sticker.shape[1], sticker.shape[0])
-                cv.resizeWindow("brown_background", sticker.shape[1], sticker.shape[0])
-                if changed or prev_track_val != cv.getTrackbarPos("sticker_trackbar", "sticker"):
+                # cv.resizeWindow("Sticker", sticker.shape[1], sticker.shape[0])
+                cv.resizeWindow("Extracted Sticker", sticker.shape[1], sticker.shape[0])
+                if changed or prev_track_val != cv.getTrackbarPos("sticker_trackbar", "Sticker"):
                     brown_background = np.zeros((sticker.shape[0], sticker.shape[1] , 3), np.uint8)
                     brown_background[:] = (63, 0, 127) # brown
                     mask = get_mask(sticker, color)
@@ -259,12 +259,12 @@ def add_to_pc():
                             if mask[j, k] == 255:
                                 brown_background[j, k] = sticker[j, k]
                     changed = False
-                    prev_track_val = cv.getTrackbarPos("sticker_trackbar", "sticker")
+                    prev_track_val = cv.getTrackbarPos("sticker_trackbar", "Sticker")
 
 
 
-                cv.imshow("brown_background", brown_background)
-                cv.imshow("sticker", sticker)
+                cv.imshow("Extracted Sticker", brown_background)
+                cv.imshow("Sticker", sticker)
 
 
                 key = cv.waitKeyEx(10)
@@ -285,7 +285,7 @@ def add_to_pc():
                     mask_temp = cv.cvtColor(mask, cv.COLOR_GRAY2BGR)
                     cv.rectangle(mask_temp, (x_bb, y_bb), (x_bb + w, y_bb + h), (0, 255, 0), 2)
                     cv.drawContours(mask_temp, contour[0], -1, (0, 0, 255), 4)
-                    cv.imshow("brown_background", mask_temp)
+                    cv.imshow("Extracted Sticker", mask_temp)
 
                     while True:
                         cv.waitKey(10)

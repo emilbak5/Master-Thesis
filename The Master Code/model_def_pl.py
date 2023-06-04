@@ -108,7 +108,9 @@ class StickerDetector(pl.LightningModule):
 
 
     def forward(self, images, targets=None):
+        
         output = self.model(images, targets)
+        x = 5
 
         return output
 
@@ -122,6 +124,7 @@ class StickerDetector(pl.LightningModule):
         boxes_labels = []
         for target in targets:
             boxes_labels.append({'boxes': target['boxes'], 'labels': target['labels']})
+
 
         loss_dict = self.model(images, boxes_labels)
 

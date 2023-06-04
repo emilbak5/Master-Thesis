@@ -129,13 +129,13 @@ class StickerData(pl.LightningDataModule):
     
     def train_dataloader(self):
         if self.num_workers == 0:
-            return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=False)
-        return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=True)
+            return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=False, drop_last=True)
+        return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=True, drop_last=True)
     
     def val_dataloader(self):
         if self.num_workers == 0:
-            return DataLoader(self.valid_dataset, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=False)
-        return DataLoader(self.valid_dataset, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=True)
+            return DataLoader(self.valid_dataset, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=False, drop_last=True)
+        return DataLoader(self.valid_dataset, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers, collate_fn=collate_fn, pin_memory=True, persistent_workers=True, drop_last=True)
     
     def test_dataloader(self):
         if self.num_workers == 0:

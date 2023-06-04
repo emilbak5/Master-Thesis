@@ -6,7 +6,7 @@ from ray.tune.schedulers import ASHAScheduler, PopulationBasedTraining
 from ray.tune.integration.pytorch_lightning import TuneReportCallback, TuneReportCheckpointCallback
 from functools import partial
 from ray_lightning import RayStrategy
-
+import ray
 
 from pytorch_lightning.callbacks import EarlyStopping, StochasticWeightAveraging
 from lightning.pytorch.accelerators import find_usable_cuda_devices
@@ -27,7 +27,7 @@ DATA_TEST_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/Master-Thesis/The Master Co
 LOGGER_PATH = 'C:/Users/emilb/OneDrive/Skrivebord/Master-Thesis/The Master Code/lightning_logs'
 
 
-MODEL_NAME = 'fasterrcnn_resnet50_fpn'
+# MODEL_NAME = 'fasterrcnn_resnet50_fpn'
 
 # MODEL_NAME = 'fasterrcnn_resnet50_fpn_v2'
 
@@ -53,7 +53,7 @@ def train_sticker_tune(config, num_epochs=10, num_gpus=0, tensor_board_name='ray
 
     logger = TensorBoardLogger(LOGGER_PATH, name=tensor_board_name, default_hp_metric=True)
 
-    early_stopping_callback = EarlyStopping(monitor='Validation/mAP', min_delta=0.001, patience=5, verbose=True, mode='max', check_on_train_epoch_end=False)
+    early_stopping_callback = EarlyStopping(monitor='Validation/mAP', min_delta=0.01, patience=3, verbose=True, mode='max', check_on_train_epoch_end=False)
     tune_callback = TuneReportCallback({'Validation/mAP': 'Validation/mAP' }, on='validation_end')
     SWA_callback = StochasticWeightAveraging(swa_lrs=1e-2)
 
@@ -104,8 +104,8 @@ def tune_sticker_asha(num_samples=NUM_SAMPLES, num_epochs=NUM_EPOCHS, gpus_per_t
 
 
     scheduler = ASHAScheduler(
-                                max_t=5000,
-                                grace_period=5,
+                                max_t=20,
+                                grace_period=3,
                                 reduction_factor=2,
                                 )
     

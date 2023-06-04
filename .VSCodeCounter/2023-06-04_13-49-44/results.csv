@@ -1,0 +1,75 @@
+"filename", "language", "Python", "Markdown", "pip requirements", "JSON", "CSV", "comment", "blank", "total"
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\README.md", "Markdown", 0, 1, 0, 0, 0, 0, 0, 1
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\details.md", "Markdown", 0, 22, 0, 0, 0, 0, 6, 28
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\diff-details.md", "Markdown", 0, 9, 0, 0, 0, 0, 6, 15
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\diff.csv", "CSV", 0, 0, 0, 0, 2, 0, 0, 2
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\diff.md", "Markdown", 0, 12, 0, 0, 0, 0, 7, 19
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\results.csv", "CSV", 0, 0, 0, 0, 15, 0, 0, 15
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\results.json", "JSON", 0, 0, 0, 1, 0, 0, 0, 1
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\.VSCodeCounter\2023-03-02_12-38-37\results.md", "Markdown", 0, 15, 0, 0, 0, 0, 7, 22
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\add_masks_before_adding_stickers.py", "Python", 30, 0, 0, 0, 0, 3, 11, 44
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\add_to_pc.py", "Python", 186, 0, 0, 0, 0, 64, 95, 345
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations.json", "JSON", 0, 0, 0, 492937, 0, 0, 0, 492937
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations_test.json", "JSON", 0, 0, 0, 3694, 0, 0, 0, 3694
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations_test_data.json", "JSON", 0, 0, 0, 9414, 0, 0, 0, 9414
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations_top_open.json", "JSON", 0, 0, 0, 9414, 0, 0, 0, 9414
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\check_bboxes.py", "Python", 23, 0, 0, 0, 0, 7, 15, 45
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\clear_folders.py", "Python", 15, 0, 0, 0, 0, 0, 6, 21
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\convert_to_jpg.py", "Python", 17, 0, 0, 0, 0, 1, 7, 25
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\cut_stickers.py", "Python", 57, 0, 0, 0, 0, 44, 17, 118
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\fix_naming_and_category_in_ls_annotations.py", "Python", 38, 0, 0, 0, 0, 1, 20, 59
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\grab_images.py", "Python", 89, 0, 0, 0, 0, 21, 23, 133
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\result.json", "JSON", 0, 0, 0, 8822, 0, 0, 0, 8822
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\test_data\result_test_data.json", "JSON", 0, 0, 0, 9414, 0, 0, 0, 9414
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\details.md", "Markdown", 0, 35, 0, 0, 0, 0, 6, 41
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\diff-details.md", "Markdown", 0, 9, 0, 0, 0, 0, 6, 15
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\diff.csv", "CSV", 0, 0, 0, 0, 2, 0, 0, 2
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\diff.md", "Markdown", 0, 12, 0, 0, 0, 0, 7, 19
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\results.csv", "CSV", 0, 0, 0, 0, 28, 0, 0, 28
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\results.json", "JSON", 0, 0, 0, 1, 0, 0, 0, 1
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\.VSCodeCounter\2023-03-02_12-01-19\results.md", "Markdown", 0, 36, 0, 0, 0, 0, 7, 43
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\annotations.json", "JSON", 0, 0, 0, 332196, 0, 0, 0, 332196
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augment_images_for_repport.py", "Python", 92, 0, 0, 0, 0, 16, 44, 152
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augment_images_mask.py", "Python", 130, 0, 0, 0, 0, 48, 62, 240
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augmentation_test\mutual_info.csv", "CSV", 0, 0, 0, 0, 129, 0, 1, 130
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augmentation_test\test\annotations.coco.json", "JSON", 0, 0, 0, 9414, 0, 0, 0, 9414
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augmentation_test\train\annotations.coco.json", "JSON", 0, 0, 0, 449632, 0, 0, 0, 449632
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augmentation_test\train_og\annotations.coco.json", "JSON", 0, 0, 0, 449632, 0, 0, 0, 449632
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augmentation_test\valid\annotations.coco.json", "JSON", 0, 0, 0, 90906, 0, 0, 0, 90906
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\augmentations_test.py", "Python", 131, 0, 0, 0, 0, 18, 62, 211
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\check_bboxes.py", "Python", 21, 0, 0, 0, 0, 10, 16, 47
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\combinations.py", "Python", 22, 0, 0, 0, 0, 6, 12, 40
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data\test\annotations.coco.json", "JSON", 0, 0, 0, 28574, 0, 0, 0, 28574
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data\train\annotations.coco.json", "JSON", 0, 0, 0, 1496, 0, 0, 0, 1496
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data\valid\annotations.coco.json", "JSON", 0, 0, 0, 1292, 0, 0, 0, 1292
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw\_annotations.coco.json", "JSON", 0, 0, 0, 31221, 0, 0, 0, 31221
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw\test_annotations.coco.json", "JSON", 0, 0, 0, 1, 0, 0, 0, 1
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw\train_annotations.coco.json", "JSON", 0, 0, 0, 1, 0, 0, 0, 1
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw\val_annotations.coco.json", "JSON", 0, 0, 0, 1, 0, 0, 0, 1
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_raw_stickers\annotations.json", "JSON", 0, 0, 0, 492937, 0, 0, 0, 492937
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers copy\test\annotations.coco.json", "JSON", 0, 0, 0, 9414, 0, 0, 0, 9414
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers copy\train\annotations.coco.json", "JSON", 0, 0, 0, 402039, 0, 0, 1, 402040
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers copy\valid\annotations.coco.json", "JSON", 0, 0, 0, 90906, 0, 0, 0, 90906
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\augmented\annotations.coco.json", "JSON", 0, 0, 0, 544818, 0, 0, 0, 544818
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\test\annotations.coco.json", "JSON", 0, 0, 0, 9414, 0, 0, 0, 9414
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\train\annotations.coco.json", "JSON", 0, 0, 0, 544818, 0, 0, 0, 544818
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\data_stickers\valid\annotations.coco.json", "JSON", 0, 0, 0, 90906, 0, 0, 0, 90906
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\dataset_def_pl.py", "Python", 88, 0, 0, 0, 0, 5, 52, 145
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\final_test.py", "Python", 55, 0, 0, 0, 0, 32, 33, 120
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\final_test\images100\annotations.coco.json", "JSON", 0, 0, 0, 544818, 0, 0, 0, 544818
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\final_test\images200\annotations.coco.json", "JSON", 0, 0, 0, 544818, 0, 0, 0, 544818
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\final_test\images300\annotations.coco.json", "JSON", 0, 0, 0, 544818, 0, 0, 0, 544818
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\final_test\images400\annotations.coco.json", "JSON", 0, 0, 0, 544818, 0, 0, 0, 544818
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\final_test\images500\annotations.coco.json", "JSON", 0, 0, 0, 544818, 0, 0, 0, 544818
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\hp_raytuning.py", "Python", 92, 0, 0, 0, 0, 23, 47, 162
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\make_matplotlib_graphs.py", "Python", 150, 0, 0, 0, 0, 55, 72, 277
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\make_split_for_final_test.py", "Python", 16, 0, 0, 0, 0, 5, 14, 35
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\mean_image.py", "Python", 51, 0, 0, 0, 0, 8, 22, 81
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\model_def_pl.py", "Python", 153, 0, 0, 0, 0, 34, 109, 296
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\requirements.txt", "pip requirements", 0, 0, 8, 0, 0, 0, 1, 9
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\show_examples.py", "Python", 25, 0, 0, 0, 0, 7, 27, 59
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\split_data.py", "Python", 64, 0, 0, 0, 0, 11, 32, 107
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\test_inference_time.py", "Python", 55, 0, 0, 0, 0, 6, 32, 93
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\train_pl.py", "Python", 49, 0, 0, 0, 0, 33, 31, 113
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\The Master Code\utils.py", "Python", 108, 0, 0, 0, 0, 84, 87, 279
+"Total", "-", 1757, 151, 8, 6837405, 176, 542, 1003, 6841042

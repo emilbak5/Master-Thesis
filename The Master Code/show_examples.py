@@ -16,22 +16,29 @@ NUM_CLASSES = 3  # logo + sticker + background
 
 WEIGHT_DECAY = 0.0005
 MOMENTUM = 0.9
+LEARNING_RATE = 0.005
+
 
 # MODEL_NAME = 'fasterrcnn_resnet50_fpn'
-# LEARNING_RATE = 0.005 # used for fasterrcnn_resnet50_fpn
 
-MODEL_NAME = 'fasterrcnn_resnet50_fpn_v2'
-LEARNING_RATE = 0.005 # used for fasterrcnn_resnet50_fpn
-
-# MODEL_NAME = 'ssd300_vgg16'
-# LEARNING_RATE = 0.0005 # better for ssd300_vgg16
+# MODEL_NAME = 'fasterrcnn_resnet50_fpn_v2_aug'
 
 # MODEL_NAME = 'retinanet_resnet50_fpn'
-# LEARNING_RATE = 0.005
+
+# MODEL_NAME = 'retinanet_resnet50_fpn_v2_aug'
+
+MODEL_NAME = 'ssd300_vgg16_aug'
+
+# MODEL_NAME = 'ssdlite320_mobilenet_v3_large'
+
+
 
 TRAINING_VERSION = 3
 
-CHECKPOINT_PATH = 'lightning_logs/' + MODEL_NAME + '/version_' + str(TRAINING_VERSION) + '/checkpoints'
+# CHECKPOINT_PATH = 'lightning_logs/' + MODEL_NAME + '/version_' + str(TRAINING_VERSION) + '/checkpoints'
+
+# copied_path = 'ray_tune_3/retinanet_resnet50_fpn/version_4'
+CHECKPOINT_PATH = 'lightning_logs/' + MODEL_NAME + '/version_0/checkpoints'
 
 CONFIG = {
     "lr": LEARNING_RATE,

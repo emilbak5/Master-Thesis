@@ -14,7 +14,7 @@ IMAGES_FOLDER_PATH = 'data_stickers/train'
 IMAGES_MASKS_FOLDER_PATH = 'data_stickers/train/masks'
 ANNOTATIONS_PATH = 'data_stickers/train/annotations.coco.json'
 
-DATASET_MULTIPLICATION_SIZE = 1
+DATASET_MULTIPLICATION_SIZE = 3
 
 
 def convert_np_arrays_to_lists(data):
@@ -74,17 +74,19 @@ def augment_images():
 
     for i in range(DATASET_MULTIPLICATION_SIZE):
         for image_name in tqdm(images):
-            number_of_augments = np.random.randint(1, 6)
+            number_of_augments = np.random.randint(1, 7)
 
             transform = A.Compose([
                                 A.SomeOf([
                                     A.RandomSizedBBoxSafeCrop(height=2048, width=2448, erosion_rate=0.0, p=1), # erosion rate determines how much of bbox must remain
-                                    # A.Rotate(p=1, limit=180, border_mode=cv2.BORDER_CONSTANT, value=0),
+                                    A.SafeRotate(p=1, limit=180, border_mode=cv2.BORDER_CONSTANT, value=0),
                                     A.VerticalFlip(p=1),
                                     A.HorizontalFlip(p=1),
                                     A.GaussNoise(p=1),
                                     A.RandomBrightnessContrast(p=1, brightness_limit=[-0.1, 0.2]),
                                     A.ColorJitter(p=1, brightness=0, contrast=0, saturation=0.4, hue=0.4),
+                                    A.GaussianBlur(p=1, blur_limit=17),
+
                                 ], n=number_of_augments),
                                 ],
                                 bbox_params=A.BboxParams(format='coco', min_visibility=0.1),
@@ -133,8 +135,8 @@ def augment_images():
             
             # combined_masks_new = cv2.cvtColor(combined_masks_new, cv2.COLOR_GRAY2BGR)
             # for bbox in transformed_bboxes:
-                # cv2.rectangle(transformed_image, (bbox[0], bbox[1]), (bbox[0]+bbox[2], bbox[1]+bbox[3]), (0, 255, 0), 2)
-                # cv2.rectangle(combined_masks_new, (bbox[0], bbox[1]), (bbox[0]+bbox[2], bbox[1]+bbox[3]), (0, 255, 0), 2)
+            #     cv2.rectangle(transformed_image, (bbox[0], bbox[1]), (bbox[0]+bbox[2], bbox[1]+bbox[3]), (0, 255, 0), 2)
+            #     cv2.rectangle(combined_masks_new, (bbox[0], bbox[1]), (bbox[0]+bbox[2], bbox[1]+bbox[3]), (0, 255, 0), 2)
             # for bbox in transformed_bboxes_:
             #     cv2.rectangle(transformed_image, (int(bbox[0]), int(bbox[1])), (int(bbox[0]+bbox[2]), int(bbox[1]+bbox[3])), (0, 0, 255), 2)
 
@@ -144,7 +146,7 @@ def augment_images():
             # cv2.imshow('old_masks', combined_masks_old)
             # cv2.imshow('new_masks', combined_masks_new)
             # cv2.imshow('image', transformed_image)
-            # cv2.imshow('old_image', image)
+            # # cv2.imshow('old_image', image)
             # cv2.waitKey(0)
 
             
@@ -198,18 +200,21 @@ def augment_images():
                 #print(f"Time taken to save mask: {end - start}")
                 annotation_count += 1
 
-
+            
+            
+            transformed_image = cv2.cvtColor(transformed_image, cv2.COLOR_RGB2BGR)
 
             cv2.imwrite('data_stickers/train/' + 'augmented_image' + str(10000 + image_count) + '.jpg', transformed_image)
             if not os.path.exists('data_stickers/augmented/'):
                 os.makedirs('data_stickers/augmented/')
             start = time.time()
+
             cv2.imwrite('data_stickers/augmented/' + 'augmented_image' + str(10000 + image_count) + '.jpg', transformed_image)
             end = time.time()
             image_count += 1
 
 
-    test = find_types(annotations)
+    # test = find_types(annotations)
 
     with open('data_stickers/train/annotations.coco.json', 'w') as outfile:
         json.dump(annotations, outfile, indent=4)

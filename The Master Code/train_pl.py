@@ -15,46 +15,46 @@ warnings.filterwarnings("ignore", ".*Consider increasing the value of the `num_w
 
 
 
-NUM_WORKERS = 2
+NUM_WORKERS = 1
 NUM_CLASSES = 3 # logo + sticker + background
     
 
 
 MODEL_NAME = 'fasterrcnn_resnet50_fpn'
-LEARNING_RATE = 0.008411556810718087 # from best experiment
-WEIGHT_DECAY = 0.00018685388268808122
-MOMENTUM = 0.9709801785257793
-BATCH_SIZE = 1
+LEARNING_RATE = 0.00686843804202059 # from best experiment
+WEIGHT_DECAY = 0.00034928381044390706
+MOMENTUM = 0.9729888256401384
+BATCH_SIZE = 4
 
 # MODEL_NAME = 'fasterrcnn_resnet50_fpn_v2'
-# LEARNING_RATE = 0.008661298311453684 # from best experiment
-# WEIGHT_DECAY = 3.937587898215636e-05
-# MOMENTUM = 0.9288785880822662
+# LEARNING_RATE = 0.0030944348261032527 # from best experiment
+# WEIGHT_DECAY = 0.000145594984384468
+# MOMENTUM = 0.9590300617664252
 # BATCH_SIZE = 1
 
 # MODEL_NAME = 'ssd300_vgg16'
-# LEARNING_RATE = 0.0078 # better for ssd300_vgg16
-# WEIGHT_DECAY = 4.554e-05
-# MOMENTUM = 0.9848
-# BATCH_SIZE = 2
+# LEARNING_RATE = 0.0015927761022237637 # better for ssd300_vgg16
+# WEIGHT_DECAY = 5.992967933744226e-05
+# MOMENTUM = 0.9553432101432585
+# BATCH_SIZE = 4
 
 # MODEL_NAME = 'ssdlite320_mobilenet_v3_large'
-# LEARNING_RATE = 0.0078 # better for ssd300_vgg16
-# WEIGHT_DECAY = 4.554e-05
-# MOMENTUM = 0.9848
-# BATCH_SIZE = 2
+# LEARNING_RATE = 0.0014405473272222627 # better for ssd300_vgg16
+# WEIGHT_DECAY = 6.686859094889015e-06
+# MOMENTUM = 0.9566373993860054
+# BATCH_SIZE = 1
 
 # MODEL_NAME = 'retinanet_resnet50_fpn'
-# LEARNING_RATE = 0.004404380413553278 # best from experimentz
-# WEIGHT_DECAY = 1.6686655768554885e-05
-# MOMENTUM = 0.9449407848243583
+# LEARNING_RATE = 0.008243058610635375 # best from experimentz
+# WEIGHT_DECAY = 3.198113224477686e-05
+# MOMENTUM = 0.8893259159675184
 # BATCH_SIZE = 2
 
 # MODEL_NAME = 'retinanet_resnet50_fpn_v2'
-# LEARNING_RATE = 0.003073905696281962 # best from experiment
-# WEIGHT_DECAY = 0.0023199534032866923
-# MOMENTUM = 0.9780596592487132
-# BATCH_SIZE = 1
+# LEARNING_RATE =  0.001329438310548949 # best from experiment
+# WEIGHT_DECAY = 6.1860955385231585e-06
+# MOMENTUM = 0.9966969806413202
+# BATCH_SIZE = 2
 
 
 
@@ -70,8 +70,8 @@ if __name__ == '__main__':
 
     torch.set_float32_matmul_precision("medium")
 
-    logger = TensorBoardLogger('lightning_logs', name=MODEL_NAME, default_hp_metric=True, log_graph=False)
-    early_stopping_callback = EarlyStopping(monitor='Validation/mAP', min_delta=0.001, patience=6, verbose=True, mode='max', check_on_train_epoch_end=False)
+    logger = TensorBoardLogger('lightning_logs', name=MODEL_NAME + '_aug', default_hp_metric=True, log_graph=False)
+    early_stopping_callback = EarlyStopping(monitor='Validation/mAP', min_delta=0.001, patience=4, verbose=True, mode='max', check_on_train_epoch_end=False)
     SWA_callback = StochasticWeightAveraging(swa_lrs=1e-2)
     # torch check for cuda devices
     # print(torch.cuda.is_available())
@@ -97,7 +97,8 @@ if __name__ == '__main__':
     data_module = StickerData(train_folder='data_stickers/train', valid_folder='data_stickers/valid', test_folder='data_stickers/test', batch_size=2, num_workers=NUM_WORKERS)
 
     model = StickerDetector(num_classes=NUM_CLASSES, config=CONFIG, model_name=MODEL_NAME)
-    
+    pytorch_total_params = sum(p.numel() for p in model.parameters())
+    print("Total trainable params:", pytorch_total_params)
     # trainer.tune(model, datamodule=data_module)
 
     torch.cuda.empty_cache()
