@@ -14,8 +14,6 @@ COMBINED_PATH = 'combined'
 COMBINED_MASKS_PATH = 'combined/masks'
 STICKER_PATH_WHITE = 'stickers_cut_white'
 STICKER_PATH_BLACK = 'stickers_cut_black'
-# STICKER_PATH_BLACK = 'stickers_emoji'
-# STICKER_PATH_BLACK = 'C:/Users/emilb/Downloads/Stickers/Stickers'
 
 WHITE = 0
 BLACK = 1

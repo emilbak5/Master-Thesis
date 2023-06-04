@@ -1,0 +1,18 @@
+"filename", "language", "Python", "JSON", "comment", "blank", "total"
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\add_masks_before_adding_stickers.py", "Python", 30, 0, 3, 11, 44
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\add_to_pc.py", "Python", 15, 0, 9, 5, 29
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations.json", "JSON", 0, 489355, 0, 0, 489355
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations_test.json", "JSON", 0, 3694, 0, 0, 3694
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations_test_data.json", "JSON", 0, 9414, 0, 0, 9414
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations_top_open.json", "JSON", 0, 9414, 0, 0, 9414
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\augment_images.py", "Python", -48, 0, -5, -23, -76
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\check_bboxes.py", "Python", 4, 0, 0, 0, 4
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\cut_stickers black.py", "Python", -32, 0, -17, -11, -60
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\cut_stickers.py", "Python", 57, 0, 44, 17, 118
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\cut_stickers_white.py", "Python", -33, 0, -23, -14, -70
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\fix_naming_and_category_in_ls_annotations.py", "Python", 12, 0, 1, 9, 22
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\rename_combined.py", "Python", -4, 0, 0, -3, -7
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\result.json", "JSON", 0, 5240, 0, 0, 5240
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\stickers.json", "JSON", 0, -358, 0, 0, -358
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\test_data\result_test_data.json", "JSON", 0, 9414, 0, 0, 9414
+"Total", "-", 1, 526173, 12, -9, 526177

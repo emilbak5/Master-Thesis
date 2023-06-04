@@ -1,0 +1,16 @@
+"filename", "language", "Python", "JSON", "comment", "blank", "total"
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\add_masks_before_adding_stickers.py", "Python", 30, 0, 3, 11, 44
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\add_to_pc.py", "Python", 186, 0, 64, 95, 345
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations.json", "JSON", 0, 492937, 0, 0, 492937
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations_test.json", "JSON", 0, 3694, 0, 0, 3694
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations_test_data.json", "JSON", 0, 9414, 0, 0, 9414
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\annotations_top_open.json", "JSON", 0, 9414, 0, 0, 9414
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\check_bboxes.py", "Python", 23, 0, 7, 15, 45
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\clear_folders.py", "Python", 15, 0, 0, 6, 21
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\convert_to_jpg.py", "Python", 17, 0, 1, 7, 25
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\cut_stickers.py", "Python", 57, 0, 44, 17, 118
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\fix_naming_and_category_in_ls_annotations.py", "Python", 38, 0, 1, 20, 59
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\grab_images.py", "Python", 89, 0, 21, 23, 133
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\result.json", "JSON", 0, 8822, 0, 0, 8822
+"c:\Users\emilb\OneDrive\Skrivebord\Master-Thesis\Sticker_laptop_code\test_data\result_test_data.json", "JSON", 0, 9414, 0, 0, 9414
+"Total", "-", 455, 533695, 141, 194, 534485
